@@ -23,10 +23,10 @@
 hs_err_pid*
 
 # gradle metadata
-.gradle
+.gradle/
 
 # idea metadata
-.idea
+.idea/
 
 # gradle artifacts
 build/
