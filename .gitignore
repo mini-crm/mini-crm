@@ -21,3 +21,19 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# gradle metadata
+.gradle
+
+# idea metadata
+.idea
+
+# gradle artifacts
+build/
+product-group-business-api/build/
+product-group-business-impl/build/
+product-group-infra-data/build/
+product-group-web-api-infra/build/
+
+
+
