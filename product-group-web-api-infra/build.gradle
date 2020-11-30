@@ -6,7 +6,7 @@ plugins {
 group 'com.minicrm'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_15
+sourceCompatibility = JavaVersion.VERSION_14
 
 repositories {
     mavenCentral()
