@@ -8,4 +8,7 @@ public class ProductGroupNameIsNotUniqueException extends RuntimeException {
 		super("Product group with " + name + " already defined");
 	}
 
+	public ProductGroupNameIsNotUniqueException(String name, Throwable throwable) {
+		super("Product group with " + name + " already defined", throwable);
+	}
 }

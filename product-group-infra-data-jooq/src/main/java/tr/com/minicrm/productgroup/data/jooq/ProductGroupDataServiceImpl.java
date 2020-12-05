@@ -7,9 +7,11 @@ import java.util.List;
 import org.jooq.DSLContext;
 import org.jooq.Record2;
 import org.jooq.RecordMapper;
+import org.jooq.exception.DataAccessException;
 
 import tr.com.minicrm.productgroup.data.ProductGroup;
 import tr.com.minicrm.productgroup.data.ProductGroupDataService;
+import tr.com.minicrm.productgroup.data.ProductGroupNameIsNotUniqueException;
 
 public class ProductGroupDataServiceImpl implements ProductGroupDataService {
 
@@ -22,7 +24,15 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
 
 	@Override
 	public void save(ProductGroup entity) {
-		dslContext.insertInto(PRODUCT_GROUP_TABLE, PRODUCT_GROUP_TABLE.GROUP_NAME).values(entity.getName()).execute();
+		try {
+			dslContext.insertInto(PRODUCT_GROUP_TABLE, PRODUCT_GROUP_TABLE.GROUP_NAME).values(entity.getName())
+					.execute();
+		} catch (DataAccessException dae) {
+			if (ExceptionUtils.isSQLIntegrityConstraintViolationException(dae))
+				throw new ProductGroupNameIsNotUniqueException(entity.getName(), dae);
+			else
+				throw dae;
+		}
 	}
 
 	@Override
