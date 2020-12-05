@@ -43,7 +43,7 @@ public class ProductGroupDataServiceImplIntegrationTest {
 	@Test
 	void testWhenSameProductGroupNameGivenThanProductGroupNameIsNotUniqueExceptionShouldBeThrown() {
 		ProductGroupDataService service = new ProductGroupDataServiceImpl(context);
-		ProductGroupImpl saved = new ProductGroupImpl("Demo");
+		ProductGroupImpl saved = new ProductGroupImpl("Demo2");
 		service.save(saved);
 		Exception exception = Assertions.assertThrows(ProductGroupNameIsNotUniqueException.class, () -> {
 			service.save(saved);
