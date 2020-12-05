@@ -8,15 +8,16 @@ public class ProductDataGroupServiceTest {
 	@Test
 	void testWhenProductGroupSavedThanItShouldExistInDataStore() {
 		FakeProductGroupDataService service = new FakeProductGroupDataService();
-		ProductGroupEntity entity = new FakeProductGroupEntity(1L);
+		ProductGroup entity = new FakeProductGroupEntity(1L);
 		service.save(entity);
-		service.hasId(entity.getId());
+		ProductGroup entityLookup = service.findByName(entity.getName());
+		Assertions.assertEquals(entity.getName(), entityLookup.getName());
 	}
 
 	@Test
 	void testWhenSameProductGroupNameGivenThanProductGroupNameIsNotUniqueExceptionShouldBeThrown() {
 		FakeProductGroupDataService service = new FakeProductGroupDataService();
-		ProductGroupEntity entity = new FakeProductGroupEntity(2l);
+		ProductGroup entity = new FakeProductGroupEntity(2l);
 		service.save(entity);
 		Exception exception = Assertions.assertThrows(ProductGroupNameIsNotUniqueException.class, () -> {
 			service.save(entity);

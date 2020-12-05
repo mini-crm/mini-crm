@@ -1,0 +1,1 @@
+docker run --name=code-gen -d mysql/mysql-server:latest

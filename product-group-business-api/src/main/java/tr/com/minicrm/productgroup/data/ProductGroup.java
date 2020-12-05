@@ -1,6 +1,6 @@
 package tr.com.minicrm.productgroup.data;
 
-public interface ProductGroupEntity {
+public interface ProductGroup {
 	
 	public Long getId();
 	

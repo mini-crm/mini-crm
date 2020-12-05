@@ -1,5 +1,5 @@
 rootProject.name = 'mini-crm'
-include 'product-group-infra-data'
+include 'product-group-infra-data-jooq'
 include 'product-group-business-api'
 include 'product-group-business-impl'
 include 'product-group-web-api-infra'

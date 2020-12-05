@@ -3,12 +3,12 @@ package tr.com.minicrm.productgroup.data;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FakeProductGroupDataService implements ProductDataGroupService {
+public class FakeProductGroupDataService implements ProductGroupDataService {
 
-	private Map<Long, ProductGroupEntity> database = new HashMap<>();
+	private Map<Long, ProductGroup> database = new HashMap<>();
 
 	@Override
-	public void save(ProductGroupEntity entity) {
+	public void save(ProductGroup entity) {
 		boolean hasData = database.values().stream().anyMatch(it -> it.getName().equals(entity.getName()));
 		if (hasData) {
 			throw new ProductGroupNameIsNotUniqueException(entity.getName());
@@ -16,8 +16,9 @@ public class FakeProductGroupDataService implements ProductDataGroupService {
 		database.put(entity.getId(), entity);
 	}
 
-	public void hasId(Long id) {
-		database.containsKey(id);
+	@Override
+	public ProductGroup findByName(String name) {
+		return database.values().stream().filter(it -> it.getName().equals(name)).findFirst().get();
 	}
 
 }

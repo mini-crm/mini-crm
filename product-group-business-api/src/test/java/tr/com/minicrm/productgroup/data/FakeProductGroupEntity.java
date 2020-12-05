@@ -1,6 +1,6 @@
 package tr.com.minicrm.productgroup.data;
 
-public class FakeProductGroupEntity implements ProductGroupEntity {
+public class FakeProductGroupEntity implements ProductGroup {
 	
 	private Long id;
 

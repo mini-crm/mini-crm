@@ -1,0 +1,154 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'project-report'
+
+
+group 'com.minicrm'
+version '1.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_14
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "standard_error","standard_out","passed", "skipped", "failed","started"
+    }
+
+    jacoco{
+        includes = ['tr.com.minicrm.*']
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.enabled true
+    }
+}
+
+jar{
+    manifest {
+        attributes 'Implementation-Title': project.name,
+                   'Implementation-Version': project.version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'org.liquibase:liquibase-core:4.2.0'
+	compile 'org.jooq:jooq-codegen:3.14.4'
+	compile 'org.jooq:jooq:3.14.4'
+	compile 'org.projectlombok:lombok:1.18.16'
+	
+    
+    compile 'mysql:mysql-connector-java:8.0.22'
+    compile project(':product-group-business-api')
+    
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.testcontainers:testcontainers:1.15.0'
+	testImplementation 'org.testcontainers:mysql:1.15.0'
+	testImplementation 'org.projectlombok:lombok:1.18.16'
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+    	classpath 'org.jooq:jooq-codegen:3.14.4'
+	    classpath 'mysql:mysql-connector-java:8.0.22'
+	    classpath 'org.testcontainers:testcontainers:1.15.0'
+	    classpath 'org.testcontainers:mysql:1.15.0'
+		classpath 'org.liquibase:liquibase-core:4.2.0'  
+    }
+}
+
+
+import org.testcontainers.containers.ContainerLaunchException
+import org.testcontainers.containers.MySQLContainer
+import org.testcontainers.containers.output.Slf4jLogConsumer
+import org.testcontainers.containers.output.ToStringConsumer
+import org.testcontainers.containers.output.OutputFrame.OutputType
+import java.sql.DriverManager
+import java.sql.Connection
+import java.sql.ResultSet
+import java.sql.SQLException
+import java.sql.Statement
+import com.mysql.cj.jdbc.Driver
+import liquibase.Contexts
+import liquibase.LabelExpression
+import liquibase.Liquibase
+import liquibase.database.DatabaseFactory
+import liquibase.database.jvm.JdbcConnection
+import liquibase.resource.ClassLoaderResourceAccessor
+import liquibase.resource.FileSystemResourceAccessor
+import java.io.File
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.*
+
+import org.jooq.codegen.DefaultGeneratorStrategy;
+import org.jooq.meta.Definition;
+
+
+class JOOQCodeGenerator extends DefaultTask {
+
+	String schema
+	String projectDirectory
+	String changeLogFile
+	String packageName
+    
+    @TaskAction
+    void generateCode() {
+        MySQLContainer mysql = new MySQLContainer("mysql:8.0.22")
+            .withDatabaseName(schema)
+            .withUsername("root")
+            .withPassword("")
+            .withEnv("MYSQL_ROOT_HOST", "%")
+		try{
+				File file = this.getProject().getRootDir()
+				mysql.start() 
+				Class.forName(mysql.getDriverClassName())		       
+		        Connection conn = DriverManager.getConnection(mysql.getJdbcUrl(),mysql.getUsername(),mysql.getPassword())
+				String projectsubdir = projectDirectory
+				liquibase.database.Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn))
+				Liquibase liquibase = new liquibase.Liquibase(projectsubdir + "/" + changeLogFile , 
+											new FileSystemResourceAccessor(file), database)
+				liquibase.update(new Contexts(), new LabelExpression())
+				String fullPath = file.getAbsolutePath();
+				GenerationTool.generate(new Configuration()
+							    .withJdbc(new Jdbc()
+							        .withDriver(mysql.getDriverClassName())
+							        .withUrl(mysql.getJdbcUrl())
+							        .withUser(mysql.getUsername())
+							        .withPassword(mysql.getPassword()))
+							    .withGenerator(new Generator()
+							        .withDatabase(new Database()
+							        	.withInputSchema(schema)
+							        	.withExcludes("DATABASECHANGELOG|DATABASECHANGELOGLOCK"))
+							        .withGenerate(new Generate()
+							            .withPojos(true)
+							            .withDaos(true))
+							        .withTarget(new Target()
+							            .withPackageName(packageName)
+							            .withDirectory(fullPath + projectsubdir + '/src/main/java'))))
+	        } finally {
+	        	mysql.stop()
+	        }
+        
+    }
+}
+
+task generateJooqJavaCode(type : JOOQCodeGenerator) {
+    schema 'product_management'
+	projectDirectory '/product-group-infra-data-jooq'
+	changeLogFile '/src/main/resources/database-change-log.xml'
+	packageName 'tr.com.minicrm.productgroup.data.jooq.generated'
+}
