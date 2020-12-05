@@ -40,14 +40,14 @@ repositories {
 }
 
 dependencies {
-	compile 'org.liquibase:liquibase-core:4.2.0'
-	compile 'org.jooq:jooq-codegen:3.14.4'
-	compile 'org.jooq:jooq:3.14.4'
-	compile 'org.projectlombok:lombok:1.18.16'
-	
-    
-    compile 'mysql:mysql-connector-java:8.0.22'
-    compile project(':product-group-business-api')
+	implementation 'org.liquibase:liquibase-core:4.2.0'
+	implementation 'org.jooq:jooq-codegen:3.14.4'
+	implementation 'org.jooq:jooq:3.14.4'
+	implementation 'org.projectlombok:lombok:1.18.16'
+
+
+	implementation 'mysql:mysql-connector-java:8.0.22'
+	implementation project(':product-group-business-api')
     
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
