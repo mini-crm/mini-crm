@@ -1,6 +1,23 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
-apply plugin: 'project-report'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+    	classpath 'org.jooq:jooq-codegen:3.14.4'
+	    classpath 'mysql:mysql-connector-java:8.0.22'
+	    classpath 'org.testcontainers:testcontainers:1.15.0'
+	    classpath 'org.testcontainers:mysql:1.15.0'
+		classpath 'org.liquibase:liquibase-core:4.2.0'  
+    }
+}
+
+plugins {
+	id 'java'
+	id 'jacoco'
+    id 'project-report'
+}
 
 
 group 'com.minicrm'
@@ -51,21 +68,6 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.15.0'
 	testImplementation 'org.testcontainers:mysql:1.15.0'
 	testImplementation 'org.projectlombok:lombok:1.18.16'
-}
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-
-    dependencies {
-    	classpath 'org.jooq:jooq-codegen:3.14.4'
-	    classpath 'mysql:mysql-connector-java:8.0.22'
-	    classpath 'org.testcontainers:testcontainers:1.15.0'
-	    classpath 'org.testcontainers:mysql:1.15.0'
-		classpath 'org.liquibase:liquibase-core:4.2.0'  
-    }
 }
 
 

@@ -1,6 +1,8 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
-apply plugin: 'project-report'
+plugins {
+	id 'java'
+	id 'jacoco'
+    id 'project-report'
+}
 
 group 'com.minicrm'
 version '1.0-SNAPSHOT'
