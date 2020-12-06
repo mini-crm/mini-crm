@@ -4,4 +4,5 @@ include 'product-group-business-api'
 include 'product-group-business-impl'
 include 'product-group-web-api-infra'
 include 'architecture-decisions'
+include 'product-group-infra-data-mongo'
 

@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'project-report'
+    id 'jacoco'
 }
 
 group 'com.minicrm'
@@ -13,4 +14,15 @@ repositories {
 
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['/generated/**'
+                    ]
+            )
+        }))
+    }
 }

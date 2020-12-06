@@ -41,6 +41,7 @@ product-group-business-api/build/
 product-group-business-impl/build/
 product-group-infra-data/build/
 product-group-web-api-infra/build/
+product-group-infra-data-mongo/build/
 buildSrc/.gradle/
 buildSrc/build/
 
