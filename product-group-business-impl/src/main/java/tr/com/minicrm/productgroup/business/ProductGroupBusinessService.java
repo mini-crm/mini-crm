@@ -20,5 +20,8 @@ public class ProductGroupBusinessService {
 		productGroupDataService.save(productGroup);
 	}
 
+	public ProductGroup findByName(String name) {
+		return productGroupDataService.findByName(name);
+	}
 
 }

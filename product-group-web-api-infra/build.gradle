@@ -1,6 +1,29 @@
 plugins {
+	id 'org.springframework.boot' version '2.4.0'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
+    id 'jacoco'
     id 'project-report'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "standard_error","standard_out","passed", "skipped", "failed","started"
+    }
+    jacoco{
+        includes = ['tr.com.minicrm.*']
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.enabled true
+    }
 }
 
 group 'com.minicrm'
@@ -13,5 +36,19 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+	implementation project(':product-group-business-api')
+	implementation project(':product-group-business-impl')
+	implementation project(':product-group-infra-data-jooq')
+	
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.jooq:jooq:3.14.4'
+	implementation 'mysql:mysql-connector-java:8.0.22'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.testcontainers:testcontainers:1.15.0'
+	testImplementation 'org.testcontainers:mysql:1.15.0'
+	
 }
