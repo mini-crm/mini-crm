@@ -1,28 +1,65 @@
-plugins {
-    id 'java'
-    id 'project-report'
-    id 'jacoco'
-}
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'project-report'
 
-group 'com.minicrm'
-version '1.0-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_14
+    group 'com.minicrm'
+    version '1.0-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_14
 
-repositories {
-    mavenCentral()
-}
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
 
-dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
-}
+    dependencies {
+        implementation 'org.projectlombok:lombok:1.18.16'
 
-jacocoTestReport {
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it,
-                    exclude: ['/generated/**'
-                    ]
-            )
-        }))
+        testImplementation 'org.projectlombok:lombok:1.18.16'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.enabled true
+        }
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                classDirectories.setFrom(files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: '**/generated/**')
+                }))
+                limit {
+                    minimum = 0.8
+                }
+            }
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "standard_error","standard_out","passed", "skipped", "failed","started"
+        }
+
+        jacoco{
+            includes = ['tr.com.minicrm.*']
+        }
+
+        finalizedBy jacocoTestReport, jacocoTestCoverageVerification
+    }
+
+    jar{
+        manifest {
+            attributes 'Implementation-Title': project.name,
+                    'Implementation-Version': project.version
+        }
     }
 }
