@@ -43,6 +43,11 @@ jacocoTestReport {
         csv.enabled false
         html.enabled true
     }
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: '**/generated/**')
+		}))
+	}
 }
 
 jar{
@@ -71,31 +76,18 @@ dependencies {
 }
 
 
-import org.testcontainers.containers.ContainerLaunchException
-import org.testcontainers.containers.MySQLContainer
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.containers.output.ToStringConsumer
-import org.testcontainers.containers.output.OutputFrame.OutputType
-import java.sql.DriverManager
-import java.sql.Connection
-import java.sql.ResultSet
-import java.sql.SQLException
-import java.sql.Statement
-import com.mysql.cj.jdbc.Driver
 import liquibase.Contexts
 import liquibase.LabelExpression
 import liquibase.Liquibase
 import liquibase.database.DatabaseFactory
 import liquibase.database.jvm.JdbcConnection
-import liquibase.resource.ClassLoaderResourceAccessor
 import liquibase.resource.FileSystemResourceAccessor
-import java.io.File
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.*
+import org.testcontainers.containers.MySQLContainer
 
-import org.jooq.codegen.DefaultGeneratorStrategy;
-import org.jooq.meta.Definition;
-
+import java.sql.Connection
+import java.sql.DriverManager
 
 class JOOQCodeGenerator extends DefaultTask {
 
@@ -121,7 +113,7 @@ class JOOQCodeGenerator extends DefaultTask {
 				Liquibase liquibase = new liquibase.Liquibase(projectsubdir + "/" + changeLogFile , 
 											new FileSystemResourceAccessor(file), database)
 				liquibase.update(new Contexts(), new LabelExpression())
-				String fullPath = file.getAbsolutePath();
+				String fullPath = file.getAbsolutePath()
 				GenerationTool.generate(new Configuration()
 							    .withJdbc(new Jdbc()
 							        .withDriver(mysql.getDriverClassName())
