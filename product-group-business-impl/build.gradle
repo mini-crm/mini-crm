@@ -1,16 +1,50 @@
-plugins {
-    id 'java'
-    id 'project-report'
-}
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'project-report'
 
 group 'com.minicrm'
 version '1.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_14
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "standard_error","standard_out","passed", "skipped", "failed","started"
+    }
+
+    jacoco{
+        includes = ['tr.com.minicrm.*']
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.enabled true
+    }
+}
+
+jar{
+    manifest {
+        attributes 'Implementation-Title': project.name,
+                   'Implementation-Version': project.version
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+	implementation 'org.apache.commons:commons-lang3:3.11'
+	implementation project(':product-group-business-api')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.testcontainers:testcontainers:1.15.0'
+	testImplementation 'org.testcontainers:mysql:1.15.0'
+	testImplementation 'org.projectlombok:lombok:1.18.16'
 }
