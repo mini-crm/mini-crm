@@ -1,9 +1,8 @@
 buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
     dependencies {
     	classpath 'org.jooq:jooq-codegen:3.14.4'
 	    classpath 'mysql:mysql-connector-java:8.0.22'
@@ -13,36 +12,7 @@ buildscript {
     }
 }
 
-plugins {
-	id 'java'
-	id 'jacoco'
-    id 'project-report'
-}
-
-
-group 'com.minicrm'
-version '1.0-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_14
-
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "standard_error","standard_out","passed", "skipped", "failed","started"
-    }
-
-    jacoco{
-        includes = ['tr.com.minicrm.*']
-    }
-    finalizedBy jacocoTestReport
-}
-
 jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.enabled true
-    }
 	afterEvaluate {
 		classDirectories.setFrom(files(classDirectories.files.collect {
 			fileTree(dir: it, exclude: '**/generated/**')
@@ -50,29 +20,15 @@ jacocoTestReport {
 	}
 }
 
-jar{
-    manifest {
-        attributes 'Implementation-Title': project.name,
-                   'Implementation-Version': project.version
-    }
-}
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
 	implementation 'org.liquibase:liquibase-core:4.2.0'
 	implementation 'org.jooq:jooq:3.14.4'
-	implementation 'org.projectlombok:lombok:1.18.16'
 	implementation 'mysql:mysql-connector-java:8.0.22'
 	implementation project(':product-group-business-api')
     
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation 'org.testcontainers:testcontainers:1.15.0'
 	testImplementation 'org.testcontainers:mysql:1.15.0'
-	testImplementation 'org.projectlombok:lombok:1.18.16'
 }
 
 
