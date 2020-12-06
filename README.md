@@ -10,3 +10,5 @@ Use the links below to access README.md file of the submodules:
 
 # Local Development Environment Setup
 1. Install Docker Desktop
+2. Install Gradle Support for IDE
+3. Import root project.

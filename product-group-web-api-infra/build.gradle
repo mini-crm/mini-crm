@@ -1,0 +1,15 @@
+dependencies {
+	implementation project(':product-group-business-api')
+	implementation project(':product-group-business-impl')
+	implementation project(':product-group-infra-data-jooq')
+	
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.jooq:jooq:3.14.4'
+	implementation 'mysql:mysql-connector-java:8.0.22'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:testcontainers:1.15.0'
+	testImplementation 'org.testcontainers:mysql:1.15.0'	
+}
+

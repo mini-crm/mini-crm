@@ -58,6 +58,11 @@ public class ProductGroupDataServiceImplIntegrationTest {
 		prepareDatabase();
 		prepareDSLContext();
 	}
+	
+	@AfterAll
+	static void tearDown() {
+		mysql.stop();
+	}
 
 	private static void prepareDatabase() throws DatabaseException, SQLException, LiquibaseException {
 		liquibase.database.Database database = DatabaseFactory.getInstance()
@@ -84,9 +89,6 @@ public class ProductGroupDataServiceImplIntegrationTest {
 		mysqlDS.setPassword(mysql.getPassword());
 	}
 
-	@AfterAll
-	static void tearDown() {
-		mysql.stop();
-	}
+	
 
 }
