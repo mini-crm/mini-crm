@@ -11,7 +11,7 @@ public class FakeProductGroupDataService implements ProductGroupDataService {
 	public void save(ProductGroup entity) {
 		boolean hasData = database.values().stream().anyMatch(it -> it.getName().equals(entity.getName()));
 		if (hasData) {
-			throw new ProductGroupNameIsNotUniqueException(entity.getName());
+			throw new ProductGroupNameIsNotUniqueException(entity.getName(), new NullPointerException());
 		}
 		database.put(entity.getId(), entity);
 	}
