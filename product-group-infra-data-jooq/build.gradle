@@ -6,8 +6,8 @@ buildscript {
     dependencies {
     	classpath 'org.jooq:jooq-codegen:3.14.4'
 	    classpath 'mysql:mysql-connector-java:8.0.22'
-	    classpath 'org.testcontainers:testcontainers:1.15.0'
-	    classpath 'org.testcontainers:mysql:1.15.0'
+	    classpath 'org.testcontainers:testcontainers:1.15.1'
+	    classpath 'org.testcontainers:mysql:1.15.1'
 		classpath 'org.liquibase:liquibase-core:4.2.0'  
     }
 }
@@ -27,8 +27,8 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.22'
 	implementation project(':product-group-data-api')
     
-    testImplementation 'org.testcontainers:testcontainers:1.15.0'
-	testImplementation 'org.testcontainers:mysql:1.15.0'
+    testImplementation 'org.testcontainers:testcontainers:1.15.1'
+	testImplementation 'org.testcontainers:mysql:1.15.1'
 }
 
 
