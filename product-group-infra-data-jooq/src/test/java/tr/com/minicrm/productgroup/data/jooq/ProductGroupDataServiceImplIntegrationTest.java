@@ -1,35 +1,13 @@
 package tr.com.minicrm.productgroup.data.jooq;
 
-import java.sql.SQLException;
-
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.MySQLContainer;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
-
-import liquibase.Contexts;
-import liquibase.LabelExpression;
-import liquibase.Liquibase;
-import liquibase.database.DatabaseFactory;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.DatabaseException;
-import liquibase.exception.LiquibaseException;
-import liquibase.resource.ClassLoaderResourceAccessor;
 import tr.com.minicrm.productgroup.data.ProductGroup;
 import tr.com.minicrm.productgroup.data.ProductGroupDataService;
 import tr.com.minicrm.productgroup.data.ProductGroupNameIsNotUniqueException;
 
-public class ProductGroupDataServiceImplIntegrationTest {
-
-	private static MySQLContainer mysql;
-	private static MysqlDataSource mysqlDS;
-	private static DSLContext context;
+public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
 
 	@Test
 	public void testWhenProductGroupSavedThanItShouldExistInDataStore() {
@@ -39,7 +17,7 @@ public class ProductGroupDataServiceImplIntegrationTest {
 		ProductGroup queried = service.findByName(saved.getName());
 		Assertions.assertEquals(saved.getName(), queried.getName());
 	}
-	
+
 	@Test
 	void testWhenSameProductGroupNameGivenThanProductGroupNameIsNotUniqueExceptionShouldBeThrown() {
 		ProductGroupDataService service = new ProductGroupDataServiceImpl(context);
@@ -51,44 +29,17 @@ public class ProductGroupDataServiceImplIntegrationTest {
 		Assertions.assertEquals("Product group with " + saved.getName() + " already defined", exception.getMessage());
 	}
 
-	@BeforeAll
-	static void setUp() throws Exception {
-		prepareDatabaseServer();
-		prepareDatasource();
-		prepareDatabase();
-		prepareDSLContext();
+	@Test
+	void testWhenSameProductGroupUpdatedThanNewNameShouldBeReturned() {
+		ProductGroupDataService service = new ProductGroupDataServiceImpl(context);
+		ProductGroup saved = new ProductGroupImpl("Demo2");
+		service.save(saved);
+		saved = service.findByName(saved.getName());
+		ProductGroup toBeUpdated = new ProductGroupImpl(saved.getId(), "Demo3", saved.getVersion());
+		service.update(toBeUpdated);
+		ProductGroup updated = service.findById(toBeUpdated.getId());
+		Assertions.assertEquals(toBeUpdated.getName(), updated.getName());
+		Assertions.assertEquals(toBeUpdated.getVersion() + 1, updated.getVersion());
 	}
-	
-	@AfterAll
-	static void tearDown() {
-		mysql.stop();
-	}
-
-	private static void prepareDatabase() throws DatabaseException, SQLException, LiquibaseException {
-		liquibase.database.Database database = DatabaseFactory.getInstance()
-				.findCorrectDatabaseImplementation(new JdbcConnection(mysqlDS.getConnection()));
-		Liquibase liquibase = new liquibase.Liquibase("database-change-log.xml", new ClassLoaderResourceAccessor(),
-				database);
-		liquibase.update(new Contexts(), new LabelExpression());
-	}
-
-	private static void prepareDatabaseServer() {
-		mysql = (MySQLContainer) new MySQLContainer("mysql:8.0.22").withDatabaseName("product_management")
-				.withUsername("root").withPassword("").withEnv("MYSQL_ROOT_HOST", "%");
-		mysql.start();
-	}
-
-	private static DSLContext prepareDSLContext() {
-		return context = DSL.using(mysqlDS, SQLDialect.MYSQL);
-	}
-
-	private static void prepareDatasource() {
-		mysqlDS = new MysqlDataSource();
-		mysqlDS.setURL(mysql.getJdbcUrl());
-		mysqlDS.setUser(mysql.getUsername());
-		mysqlDS.setPassword(mysql.getPassword());
-	}
-
-	
 
 }

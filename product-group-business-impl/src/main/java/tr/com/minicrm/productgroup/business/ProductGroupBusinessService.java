@@ -20,6 +20,14 @@ public class ProductGroupBusinessService {
 		productGroupDataService.save(productGroup);
 	}
 
+	public void updateProductGroup(ProductGroup productGroup) {
+		ProductGroup queried = productGroupDataService.findById(productGroup.getId());
+		if (null == queried) {
+			throw new ProductGroupDoesNotExistException(productGroup.getId());
+		}
+		productGroupDataService.update(productGroup);
+	}
+
 	public ProductGroup findByName(String name) {
 		return productGroupDataService.findByName(name);
 	}

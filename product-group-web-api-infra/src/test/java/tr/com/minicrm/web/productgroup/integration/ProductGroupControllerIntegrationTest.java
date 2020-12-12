@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -19,7 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
@@ -35,7 +36,6 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import tr.com.minicrm.TestMain;
 import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
 import tr.com.minicrm.productgroup.data.jooq.ProductGroupDataServiceImpl;
 import tr.com.minicrm.web.productgroup.ProductGroupModel;
@@ -64,6 +64,11 @@ public class ProductGroupControllerIntegrationTest {
 		@Bean
 		public ProductGroupBusinessService productGroupBusinessService() {
 			return new ProductGroupBusinessService(new ProductGroupDataServiceImpl(context));
+		}
+		
+		@Bean
+		public DataSource dataSource() {
+			return mysqlDS;
 		}
 
 	}

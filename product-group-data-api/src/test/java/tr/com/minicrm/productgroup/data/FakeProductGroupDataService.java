@@ -21,4 +21,15 @@ public class FakeProductGroupDataService implements ProductGroupDataService {
 		return database.values().stream().filter(it -> it.getName().equals(name)).findFirst().get();
 	}
 
+	@Override
+	public void update(ProductGroup entity) {
+		database.put(entity.getId(), entity);
+
+	}
+
+	@Override
+	public ProductGroup findById(Long id) {
+		return database.get(id);
+	}
+
 }

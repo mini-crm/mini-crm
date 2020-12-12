@@ -29,4 +29,16 @@ public class FakeProductGroupDataService implements ProductGroupDataService {
 		groups.clear();
 	}
 
+	@Override
+	public ProductGroup findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(ProductGroup entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

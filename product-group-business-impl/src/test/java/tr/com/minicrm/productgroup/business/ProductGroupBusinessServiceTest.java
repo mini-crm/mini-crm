@@ -28,4 +28,29 @@ class ProductGroupBusinessServiceTest {
 		Assertions.assertNotNull(dataService.findByName(sample.getName()));
 	}
 
+	@Test
+	void testWhenProductGroupUpdatedThanNewNameShouldExistInDatastore() {
+		FakeProductGroupDataService dataService = new FakeProductGroupDataService();
+		dataService.clear();
+		FakeProductGroup sample = new FakeProductGroup(1L, "Demo 1");
+		ProductGroupBusinessService pgbs = new ProductGroupBusinessService(dataService);
+		pgbs.createNewProductGroup(sample);
+		Assertions.assertNotNull(dataService.findByName(sample.getName()));
+		sample = new FakeProductGroup(1L, "Demo 2");
+		pgbs.updateProductGroup(sample);
+		Assertions.assertNotNull(dataService.findByName(sample.getName()));
+	}
+
+	@Test
+	void testWhenInvalidProductGroupNameProvidedThanProductGroupDoesNotExistExceptionShouldReturn() {
+		FakeProductGroupDataService dataService = new FakeProductGroupDataService();
+		FakeProductGroup sample = new FakeProductGroup();
+		dataService.clear();
+		ProductGroupBusinessService pgbs = new ProductGroupBusinessService(dataService);
+		Exception exception = Assertions.assertThrows(ProductGroupDoesNotExistException.class, () -> {
+			pgbs.updateProductGroup(sample);
+		});
+		Assertions.assertTrue(exception.getMessage().contains(sample.getId().toString()));
+	}
+
 }

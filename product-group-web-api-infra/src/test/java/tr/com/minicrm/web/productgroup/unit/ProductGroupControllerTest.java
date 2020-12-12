@@ -6,8 +6,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -16,14 +22,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
-import tr.com.minicrm.TestMain;
+import liquibase.integration.spring.SpringLiquibase;
 import tr.com.minicrm.productgroup.business.FakeProductGroupDataService;
 import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
 import tr.com.minicrm.web.productgroup.ProductGroupModel;
 
-@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(properties = {
+		"spring.main.allow-bean-definition-overriding=true",
+		"spring.liquibase.enabled=false"
+		})
 @AutoConfigureMockMvc
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class ProductGroupControllerTest {
 
 	@Autowired
@@ -57,6 +68,16 @@ public class ProductGroupControllerTest {
 		@Bean
 		public FakeProductGroupDataService fakeProductGroupDataService() {
 			return new FakeProductGroupDataService();
+		}
+		
+		@Bean
+		public DataSource dataSource() {
+			return new MysqlDataSource();
+		}
+		
+		@Bean
+		public SpringLiquibase liquibase(DataSource dataSource) {
+		    return null;
 		}
 
 	}

@@ -11,7 +11,7 @@
             <column  name="group_name"  type="varchar(150)" >  
                 <constraints  nullable="false" unique="true"/>  
             </column> 
-            <column name="version" type="INT"></column>
+            <column name="version" type="INT" defaultValue="0"></column>
         </createTable>  
     </changeSet>
 </databaseChangeLog>

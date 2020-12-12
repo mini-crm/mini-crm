@@ -8,25 +8,40 @@ import tr.com.minicrm.productgroup.data.ProductGroupDataService;
 
 public class FakeProductGroupDataService implements ProductGroupDataService {
 
-	private Map<String, ProductGroup> groups = new HashMap<>();
+	private Map<String, ProductGroup> groupsByName = new HashMap<>();
 
 	@Override
 	public void save(ProductGroup entity) {
-		groups.put(entity.getName(), entity);
+		groupsByName.put(entity.getName(), entity);
 	}
 
 	@Override
 	public ProductGroup findByName(String name) {
-		return groups.get(name);
+		return groupsByName.get(name);
 	}
 
 	public void addToStore(FakeProductGroup sample) {
-		groups.put(sample.getName(), sample);
+		groupsByName.put(sample.getName(), sample);
 
 	}
 
 	public void clear() {
-		groups.clear();
+		groupsByName.clear();
+	}
+
+	@Override
+	public void update(ProductGroup entity) {
+		ProductGroup pg = groupsByName.values().stream().filter(it -> it.getId().equals(entity.getId())).findFirst()
+				.orElse(null);
+		if (null != pg) {
+			groupsByName.remove(entity.getName());
+			groupsByName.put(entity.getName(), entity);
+		}
+	}
+
+	@Override
+	public ProductGroup findById(Long id) {
+		return groupsByName.values().stream().filter(it -> it.getId().equals(id)).findFirst().orElse(null);
 	}
 
 }

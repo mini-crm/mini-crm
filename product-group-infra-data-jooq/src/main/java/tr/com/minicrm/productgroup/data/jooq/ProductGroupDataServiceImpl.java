@@ -52,4 +52,31 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
 		return items.get(0);
 	}
 
+	@Override
+	public void update(ProductGroup entity) {
+		dslContext.update(PRODUCT_GROUP_TABLE)
+				.set(PRODUCT_GROUP_TABLE.GROUP_NAME, entity.getName())
+				.set(PRODUCT_GROUP_TABLE.VERSION,PRODUCT_GROUP_TABLE.VERSION.plus(1))
+				.where(PRODUCT_GROUP_TABLE.PGR_ID.eq(entity.getId()))
+				.and(PRODUCT_GROUP_TABLE.VERSION.eq(entity.getVersion()))
+				.execute();
+	}
+
+	@Override
+	public ProductGroup findById(Long id) {
+		List<ProductGroup> items = dslContext
+				.select(PRODUCT_GROUP_TABLE.PGR_ID, PRODUCT_GROUP_TABLE.GROUP_NAME, PRODUCT_GROUP_TABLE.VERSION)
+				.from(PRODUCT_GROUP_TABLE).where(PRODUCT_GROUP_TABLE.PGR_ID.eq(id))
+				.fetch(new RecordMapper<Record3<Long, String, Integer>, ProductGroup>() {
+					@Override
+					public ProductGroup map(Record3<Long, String, Integer> rec) {
+						return new ProductGroupImpl(rec.component1(), rec.component2(), rec.component3());
+					}
+				});
+		if (items.isEmpty()) {
+			return null;
+		}
+		return items.get(0);
+	}
+
 }
