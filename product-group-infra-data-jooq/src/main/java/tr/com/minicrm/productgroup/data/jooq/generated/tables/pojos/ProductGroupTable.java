@@ -15,22 +15,26 @@ public class ProductGroupTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long   pgrId;
-    private String groupName;
+    private Long    pgrId;
+    private String  groupName;
+    private Integer version;
 
     public ProductGroupTable() {}
 
     public ProductGroupTable(ProductGroupTable value) {
         this.pgrId = value.pgrId;
         this.groupName = value.groupName;
+        this.version = value.version;
     }
 
     public ProductGroupTable(
-        Long   pgrId,
-        String groupName
+        Long    pgrId,
+        String  groupName,
+        Integer version
     ) {
         this.pgrId = pgrId;
         this.groupName = groupName;
+        this.version = version;
     }
 
     /**
@@ -61,12 +65,27 @@ public class ProductGroupTable implements Serializable {
         this.groupName = groupName;
     }
 
+    /**
+     * Getter for <code>product_management.product_group_table.version</code>.
+     */
+    public Integer getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Setter for <code>product_management.product_group_table.version</code>.
+     */
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ProductGroupTable (");
 
         sb.append(pgrId);
         sb.append(", ").append(groupName);
+        sb.append(", ").append(version);
 
         sb.append(")");
         return sb.toString();

@@ -5,7 +5,7 @@ import static tr.com.minicrm.productgroup.data.jooq.generated.tables.ProductGrou
 import java.util.List;
 
 import org.jooq.DSLContext;
-import org.jooq.Record2;
+import org.jooq.Record3;
 import org.jooq.RecordMapper;
 import org.jooq.exception.DataAccessException;
 
@@ -37,12 +37,13 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
 
 	@Override
 	public ProductGroup findByName(String name) {
-		List<ProductGroup> items = dslContext.select(PRODUCT_GROUP_TABLE.PGR_ID, PRODUCT_GROUP_TABLE.GROUP_NAME)
+		List<ProductGroup> items = dslContext
+				.select(PRODUCT_GROUP_TABLE.PGR_ID, PRODUCT_GROUP_TABLE.GROUP_NAME, PRODUCT_GROUP_TABLE.VERSION)
 				.from(PRODUCT_GROUP_TABLE).where(PRODUCT_GROUP_TABLE.GROUP_NAME.eq(name))
-				.fetch(new RecordMapper<Record2<Long, String>, ProductGroup>() {
+				.fetch(new RecordMapper<Record3<Long, String, Integer>, ProductGroup>() {
 					@Override
-					public ProductGroup map(Record2<Long, String> rec) {
-						return new ProductGroupImpl(rec.component1(), rec.component2());
+					public ProductGroup map(Record3<Long, String, Integer> rec) {
+						return new ProductGroupImpl(rec.component1(), rec.component2(), rec.component3());
 					}
 				});
 		if (items.isEmpty()) {

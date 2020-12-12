@@ -19,4 +19,9 @@ public class FakeProductGroupEntity implements ProductGroup {
 		return "Demo";
 	}
 
+	@Override
+	public int getVersion() {
+		return 0;
+	}
+
 }

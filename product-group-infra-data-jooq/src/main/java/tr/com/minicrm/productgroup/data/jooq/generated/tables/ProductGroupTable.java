@@ -12,7 +12,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row2;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -57,6 +57,11 @@ public class ProductGroupTable extends TableImpl<ProductGroupTableRecord> {
      * The column <code>product_management.product_group_table.group_name</code>.
      */
     public final TableField<ProductGroupTableRecord, String> GROUP_NAME = createField(DSL.name("group_name"), SQLDataType.VARCHAR(150).nullable(false), this, "");
+
+    /**
+     * The column <code>product_management.product_group_table.version</code>.
+     */
+    public final TableField<ProductGroupTableRecord, Integer> VERSION = createField(DSL.name("version"), SQLDataType.INTEGER, this, "");
 
     private ProductGroupTable(Name alias, Table<ProductGroupTableRecord> aliased) {
         this(alias, aliased, null);
@@ -138,11 +143,11 @@ public class ProductGroupTable extends TableImpl<ProductGroupTableRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row2 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row2<Long, String> fieldsRow() {
-        return (Row2) super.fieldsRow();
+    public Row3<Long, String, Integer> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 }

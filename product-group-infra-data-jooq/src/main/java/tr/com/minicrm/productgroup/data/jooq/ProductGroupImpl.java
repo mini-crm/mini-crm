@@ -7,11 +7,14 @@ public class ProductGroupImpl implements ProductGroup {
 	private Long id;
 
 	private String name;
+	
+	private int version;
 
-	public ProductGroupImpl(Long id, String name) {
+	public ProductGroupImpl(Long id, String name,int version) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.version = version;
 	}
 
 	public ProductGroupImpl(String name) {
@@ -31,6 +34,11 @@ public class ProductGroupImpl implements ProductGroup {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
 	}
 
 }

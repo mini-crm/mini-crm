@@ -20,15 +20,25 @@ jacocoTestReport {
 	}
 }
 
+configurations {
+    driver
+}
 
 dependencies {
 	implementation 'org.liquibase:liquibase-core:4.2.0'
 	implementation 'org.jooq:jooq:3.14.4'
 	implementation 'mysql:mysql-connector-java:8.0.22'
+	driver 'mysql:mysql-connector-java:8.0.22'
 	implementation project(':product-group-data-api')
     
     testImplementation 'org.testcontainers:testcontainers:1.15.1'
 	testImplementation 'org.testcontainers:mysql:1.15.1'
+}
+
+
+URLClassLoader loader = GroovyObject.class.classLoader
+	configurations.driver.each {
+		File file -> loader.addURL(file.toURL())
 }
 
 
@@ -86,6 +96,9 @@ class JOOQCodeGenerator extends DefaultTask {
 							        .withTarget(new Target()
 							            .withPackageName(packageName)
 							            .withDirectory(fullPath + projectsubdir + '/src/main/java'))))
+			} catch(Exception exc){
+				exc.printStackTrace();
+				throw exc;
 	        } finally {
 	        	mysql.stop()
 	        }

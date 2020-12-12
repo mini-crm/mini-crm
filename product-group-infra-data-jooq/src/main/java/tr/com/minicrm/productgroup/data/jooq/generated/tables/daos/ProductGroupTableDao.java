@@ -79,4 +79,18 @@ public class ProductGroupTableDao extends DAOImpl<ProductGroupTableRecord, tr.co
     public tr.com.minicrm.productgroup.data.jooq.generated.tables.pojos.ProductGroupTable fetchOneByGroupName(String value) {
         return fetchOne(ProductGroupTable.PRODUCT_GROUP_TABLE.GROUP_NAME, value);
     }
+
+    /**
+     * Fetch records that have <code>version BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<tr.com.minicrm.productgroup.data.jooq.generated.tables.pojos.ProductGroupTable> fetchRangeOfVersion(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(ProductGroupTable.PRODUCT_GROUP_TABLE.VERSION, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>version IN (values)</code>
+     */
+    public List<tr.com.minicrm.productgroup.data.jooq.generated.tables.pojos.ProductGroupTable> fetchByVersion(Integer... values) {
+        return fetch(ProductGroupTable.PRODUCT_GROUP_TABLE.VERSION, values);
+    }
 }

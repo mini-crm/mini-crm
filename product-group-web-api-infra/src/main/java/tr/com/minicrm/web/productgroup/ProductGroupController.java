@@ -32,6 +32,11 @@ public class ProductGroupController {
 			public Long getId() {
 				return req.getId();
 			}
+
+			@Override
+			public int getVersion() {
+				return 0;
+			}
 		});
 		ProductGroup saved = service.findByName(req.getName());
 		return ResponseEntity.ok(new ProductGroupModel(saved.getName(), saved.getId()));
