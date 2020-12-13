@@ -12,3 +12,4 @@ Use the links below to access README.md file of the submodules:
 1. Install Docker Desktop
 2. Install Gradle Support for IDE
 3. Import root project.
+4. Import Code Quality located at `/code-quality/src/main/code-quality` Files to IDE 

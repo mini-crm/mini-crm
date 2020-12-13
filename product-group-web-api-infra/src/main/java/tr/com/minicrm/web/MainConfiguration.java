@@ -13,13 +13,13 @@ import liquibase.integration.spring.SpringLiquibase;
 @ComponentScan(basePackages = "tr.com.minicrm")
 @Import(ProductGroupBusinessServiceConfiguration.class)
 public class MainConfiguration {
-	
-	@Bean
-	public SpringLiquibase liquibase(DataSource dataSource) {
-	    SpringLiquibase liquibase = new SpringLiquibase();
-	    liquibase.setChangeLog("classpath:database-change-log.xml");
-	    liquibase.setDataSource(dataSource);
-	    return liquibase;
-	}
+
+  @Bean
+  public SpringLiquibase liquibase(DataSource dataSource) {
+    SpringLiquibase liquibase = new SpringLiquibase();
+    liquibase.setChangeLog("classpath:database-change-log.xml");
+    liquibase.setDataSource(dataSource);
+    return liquibase;
+  }
 
 }

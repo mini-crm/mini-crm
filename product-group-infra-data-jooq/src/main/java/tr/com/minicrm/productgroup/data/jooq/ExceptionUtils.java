@@ -3,22 +3,22 @@ package tr.com.minicrm.productgroup.data.jooq;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 class ExceptionUtils {
-	private ExceptionUtils() {
+  private ExceptionUtils() {
 
-	}
+  }
 
-	public static boolean isSQLIntegrityConstraintViolationException(Throwable root) {
-		do {
-			if (isSQLIntegrityException(root)) {
-				return true;
-			}
-			root = root.getCause();
-		} while (root != null);
-		return false;
-	}
+  public static boolean isSqlIntegrityConstraintViolationException(Throwable root) {
+    do {
+      if (isSqlIntegrityException(root)) {
+        return true;
+      }
+      root = root.getCause();
+    } while (root != null);
+    return false;
+  }
 
-	private static boolean isSQLIntegrityException(Throwable throwable) {
-		return throwable instanceof SQLIntegrityConstraintViolationException;
-	}
+  private static boolean isSqlIntegrityException(Throwable throwable) {
+    return throwable instanceof SQLIntegrityConstraintViolationException;
+  }
 
 }

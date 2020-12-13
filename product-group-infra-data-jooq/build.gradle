@@ -34,6 +34,13 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.15.1'
 	testImplementation 'org.testcontainers:mysql:1.15.1'
 }
+sourceSets {
+    main {
+        java {
+            srcDir "src/main/generated"
+        }
+    }
+}
 
 
 URLClassLoader loader = GroovyObject.class.classLoader
@@ -95,7 +102,7 @@ class JOOQCodeGenerator extends DefaultTask {
 							            .withDaos(true))
 							        .withTarget(new Target()
 							            .withPackageName(packageName)
-							            .withDirectory(fullPath + projectsubdir + '/src/main/java'))))
+							            .withDirectory(fullPath + projectsubdir + '/src/main/generated'))))
 			} catch(Exception exc){
 				exc.printStackTrace();
 				throw exc;

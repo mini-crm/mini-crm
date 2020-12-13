@@ -4,41 +4,41 @@ import tr.com.minicrm.productgroup.data.ProductGroup;
 
 public class ProductGroupImpl implements ProductGroup {
 
-	private Long id;
+  private Long id;
 
-	private String name;
-	
-	private int version;
+  private String name;
 
-	public ProductGroupImpl(Long id, String name,int version) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.version = version;
-	}
+  private int version;
 
-	public ProductGroupImpl(String name) {
-		super();
-		this.name = name;
-	}
+  public ProductGroupImpl(Long id, String name, int version) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.version = version;
+  }
 
-	public ProductGroupImpl() {
-		super();
-	}
+  public ProductGroupImpl(String name) {
+    super();
+    this.name = name;
+  }
 
-	@Override
-	public Long getId() {
-		return id;
-	}
+  public ProductGroupImpl() {
+    super();
+  }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+  @Override
+  public Long getId() {
+    return id;
+  }
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public int getVersion() {
+    return version;
+  }
 
 }

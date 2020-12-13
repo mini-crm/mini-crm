@@ -8,37 +8,37 @@ import tr.com.minicrm.productgroup.data.ProductGroupDataService;
 
 public class FakeProductGroupDataService implements ProductGroupDataService {
 
-	private Map<String, ProductGroup> groups = new HashMap<>();
+  private Map<String, ProductGroup> groups = new HashMap<>();
 
-	@Override
-	public void save(ProductGroup entity) {
-		groups.put(entity.getName(), entity);
-	}
+  @Override
+  public void save(ProductGroup entity) {
+    groups.put(entity.getName(), entity);
+  }
 
-	@Override
-	public ProductGroup findByName(String name) {
-		return groups.get(name);
-	}
+  @Override
+  public ProductGroup findByName(String name) {
+    return groups.get(name);
+  }
 
-	public void addToStore(ProductGroup sample) {
-		groups.put(sample.getName(), sample);
+  public void addToStore(ProductGroup sample) {
+    groups.put(sample.getName(), sample);
 
-	}
+  }
 
-	public void clear() {
-		groups.clear();
-	}
+  public void clear() {
+    groups.clear();
+  }
 
-	@Override
-	public ProductGroup findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public ProductGroup findById(Long id) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public void update(ProductGroup entity) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public void update(ProductGroup entity) {
+    // TODO Auto-generated method stub
+
+  }
 
 }

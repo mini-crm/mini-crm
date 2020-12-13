@@ -61,7 +61,7 @@ public class ProductGroupTable extends TableImpl<ProductGroupTableRecord> {
     /**
      * The column <code>product_management.product_group_table.version</code>.
      */
-    public final TableField<ProductGroupTableRecord, Integer> VERSION = createField(DSL.name("version"), SQLDataType.INTEGER, this, "");
+    public final TableField<ProductGroupTableRecord, Integer> VERSION = createField(DSL.name("version"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
 
     private ProductGroupTable(Name alias, Table<ProductGroupTableRecord> aliased) {
         this(alias, aliased, null);

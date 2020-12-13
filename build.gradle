@@ -2,6 +2,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
     apply plugin: 'project-report'
+    apply plugin: "checkstyle"
 
     group 'com.minicrm'
     version '1.0-SNAPSHOT'
@@ -19,7 +20,7 @@ allprojects {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
         testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
-    }
+    }    
 
     jacocoTestReport {
         dependsOn test
@@ -42,6 +43,17 @@ allprojects {
             }
         }
     }
+    
+    def codeQualityDir = project(':code-quality')
+    checkstyle {
+	  configFile = codeQualityDir.file("src/main/code-quality/checkstyle.xml")
+	  configProperties = [ 'checkstyleSuppressionFile':codeQualityDir.file("src/main/code-quality/checkstyle.suppression.xml").absolutePath]
+	  ignoreFailures = false
+	  maxWarnings = 0
+	  maxErrors = 0
+	  toolVersion '8.36.1'
+	  
+	}
 
     test {
         useJUnitPlatform()

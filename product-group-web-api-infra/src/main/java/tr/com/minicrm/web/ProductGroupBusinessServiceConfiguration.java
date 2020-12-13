@@ -15,23 +15,23 @@ import tr.com.minicrm.productgroup.data.jooq.ProductGroupDataServiceImpl;
 
 @Configuration
 public class ProductGroupBusinessServiceConfiguration {
-	
-	@Autowired
-	private DataSource dataSource;
 
-	@Bean
-	ProductGroupBusinessService productGroupBusinessService(ProductGroupDataService productGroupDataService) {
-		return new ProductGroupBusinessService(productGroupDataService);
-	}
+  @Autowired
+  private DataSource dataSource;
 
-	@Bean
-	ProductGroupDataService productGroupDataService(DSLContext dslContext) {
-		return new ProductGroupDataServiceImpl(dslContext);
-	}
+  @Bean
+  ProductGroupBusinessService productGroupBusinessService(ProductGroupDataService productGroupDataService) {
+    return new ProductGroupBusinessService(productGroupDataService);
+  }
 
-	@Bean
-	DSLContext dslContext() {
-		return DSL.using(dataSource, SQLDialect.MYSQL);
-	}
+  @Bean
+  ProductGroupDataService productGroupDataService(DSLContext dslContext) {
+    return new ProductGroupDataServiceImpl(dslContext);
+  }
+
+  @Bean
+  DSLContext dslContext() {
+    return DSL.using(dataSource, SQLDialect.MYSQL);
+  }
 
 }

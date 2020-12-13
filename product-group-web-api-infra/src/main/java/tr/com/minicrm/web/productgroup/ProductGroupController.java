@@ -12,34 +12,34 @@ import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
 import tr.com.minicrm.productgroup.data.ProductGroup;
 
 @RestController
-@RequestMapping(value = "/product-group", consumes = { MediaType.ALL_VALUE,
-		MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.ALL_VALUE, MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/product-group", consumes = {MediaType.ALL_VALUE, MediaType.APPLICATION_JSON_VALUE},
+    produces = {MediaType.ALL_VALUE, MediaType.APPLICATION_JSON_VALUE})
 public class ProductGroupController {
 
-	@Autowired
-	private ProductGroupBusinessService service;
+  @Autowired
+  private ProductGroupBusinessService service;
 
-	@PostMapping("/create")
-	public ResponseEntity<ProductGroupModel> create(@RequestBody ProductGroupModel req) {
-		service.createNewProductGroup(new ProductGroup() {
+  @PostMapping("/create")
+  public ResponseEntity<ProductGroupModel> create(@RequestBody ProductGroupModel req) {
+    service.createNewProductGroup(new ProductGroup() {
 
-			@Override
-			public String getName() {
-				return req.getName();
-			}
+      @Override
+      public String getName() {
+        return req.getName();
+      }
 
-			@Override
-			public Long getId() {
-				return req.getId();
-			}
+      @Override
+      public Long getId() {
+        return req.getId();
+      }
 
-			@Override
-			public int getVersion() {
-				return 0;
-			}
-		});
-		ProductGroup saved = service.findByName(req.getName());
-		return ResponseEntity.ok(new ProductGroupModel(saved.getName(), saved.getId()));
-	}
+      @Override
+      public int getVersion() {
+        return 0;
+      }
+    });
+    ProductGroup saved = service.findByName(req.getName());
+    return ResponseEntity.ok(new ProductGroupModel(saved.getName(), saved.getId()));
+  }
 
 }

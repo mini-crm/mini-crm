@@ -2,41 +2,41 @@ package tr.com.minicrm.web.productgroup;
 
 public class ProductGroupModel {
 
-	private String name;
-	
-	private Long id;
+  private String name;
 
-	public ProductGroupModel() {
-		super();
-	}
+  private Long id;
 
-	public ProductGroupModel(String name) {
-		super();
-		this.name = name;
-	}
-	
-	public ProductGroupModel(String name, Long id) {
-		super();
-		this.name = name;
-		this.id = id;
-	}
+  public ProductGroupModel() {
+    super();
+  }
 
-	public String getName() {
-		return name;
-	}
+  public ProductGroupModel(String name) {
+    super();
+    this.name = name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public ProductGroupModel(String name, Long id) {
+    super();
+    this.name = name;
+    this.id = id;
+  }
 
-	public Long getId() {
-		return id;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
 
 }
