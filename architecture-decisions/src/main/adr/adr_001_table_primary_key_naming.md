@@ -1,6 +1,6 @@
-#ADR-001 Table Primary Key Naming
+# ADR-001 Table Primary Key Naming
 
-##Problem
+## Problem
 
 We should find a proper naming for tables and primary keys.
 Also we should find a way to verify it? Can we automate this or we can put this in to a process such as code review.
