@@ -1,5 +1,7 @@
 # mini-crm
 
+![Java CI with Gradle](https://github.com/mini-crm/mini-crm/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=main)
+
 Use the links below to access README.md file of the submodules:
 
 1. [Product Group Infra Web API](product-group-web-api-infra/README.md)
