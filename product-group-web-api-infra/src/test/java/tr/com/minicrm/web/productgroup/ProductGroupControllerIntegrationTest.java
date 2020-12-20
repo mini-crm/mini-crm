@@ -1,4 +1,4 @@
-package tr.com.minicrm.web.productgroup.integration;
+package tr.com.minicrm.web.productgroup;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -28,8 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
 
-import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
-import tr.com.minicrm.productgroup.data.jooq.ProductGroupDataServiceImpl;
 import tr.com.minicrm.web.generated.productgroup.model.FindProductGroupQuery;
 import tr.com.minicrm.web.generated.productgroup.model.FindProductGroupQueryOperationResponse;
 import tr.com.minicrm.web.generated.productgroup.model.NewProductGroup;
@@ -134,10 +132,10 @@ public class ProductGroupControllerIntegrationTest {
 
   @TestConfiguration
   static class ProductGroupInfraDataJooqConfiguration {
-
+    
     @Bean
-    public ProductGroupBusinessService productGroupBusinessService() {
-      return new ProductGroupBusinessService(new ProductGroupDataServiceImpl(context));
+    public DSLContext dslContext() {
+      return context;
     }
 
     @Bean
