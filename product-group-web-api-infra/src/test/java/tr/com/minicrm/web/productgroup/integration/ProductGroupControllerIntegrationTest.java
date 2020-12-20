@@ -1,9 +1,9 @@
 package tr.com.minicrm.web.productgroup.integration;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.SQLException;
@@ -30,7 +30,10 @@ import org.testcontainers.containers.MySQLContainer;
 
 import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
 import tr.com.minicrm.productgroup.data.jooq.ProductGroupDataServiceImpl;
-import tr.com.minicrm.web.productgroup.ProductGroupModel;
+import tr.com.minicrm.web.generated.productgroup.model.FindProductGroupQuery;
+import tr.com.minicrm.web.generated.productgroup.model.FindProductGroupQueryOperationResponse;
+import tr.com.minicrm.web.generated.productgroup.model.NewProductGroup;
+import tr.com.minicrm.web.generated.productgroup.model.ProductGroup;
 
 import liquibase.Contexts;
 import liquibase.LabelExpression;
@@ -54,10 +57,79 @@ public class ProductGroupControllerIntegrationTest {
 
   @Test
   public void testWhenNewProductGroupNameProvidedThanProductGroupDataServiceShouldBeCalled() throws Exception {
+    NewProductGroup group = new NewProductGroup().name("demo");
     this.mockMvc
-        .perform(post("/product-group/create").accept(MediaType.APPLICATION_JSON_VALUE)
-            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(new ProductGroupModel("demo"))))
-        .andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("demo")));
+        .perform(post("/product-group").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(group)))
+        .andDo(print()).andExpect(status().isOk());
+  }
+
+  @Test
+  public void testWhenDuplicateProductGroupNameProvidedThanItShouldThrowException() throws Exception {
+    NewProductGroup group = new NewProductGroup().name("demo2");
+    this.mockMvc
+        .perform(post("/product-group").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(group)))
+        .andDo(print()).andExpect(status().isOk());
+    this.mockMvc
+        .perform(post("/product-group").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(group)))
+        .andDo(print()).andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testWhenProductGroupNameQueriedThanItShouldReturnResult() throws Exception {
+    NewProductGroup group = new NewProductGroup().name("demo3");
+    this.mockMvc
+        .perform(post("/product-group").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(group)))
+        .andDo(print()).andExpect(status().isOk());
+    FindProductGroupQuery query = new FindProductGroupQuery().name(group.getName());
+    this.mockMvc
+        .perform(post("/product-group/find-by-name").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(query)))
+        .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.body.name").value(group.getName()));
+  }
+
+  @Test
+  public void testWhenUnknownProductGroupNameQueriedThanItShouldThrowException() throws Exception {
+    NewProductGroup group = new NewProductGroup().name("demo-1");
+    FindProductGroupQuery query = new FindProductGroupQuery().name(group.getName());
+    this.mockMvc
+        .perform(post("/product-group/find-by-name").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(query)))
+        .andDo(print()).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testWhenProductGroupNameUpdatedThanProductGroupDataServiceShouldBeCalled() throws Exception {
+    NewProductGroup group = new NewProductGroup().name("demo 4");
+    this.mockMvc
+        .perform(post("/product-group").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(group)))
+        .andDo(print()).andExpect(status().isOk());
+    FindProductGroupQuery query = new FindProductGroupQuery().name(group.getName());
+    String content = this.mockMvc
+        .perform(post("/product-group/find-by-name").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(query)))
+        .andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+    FindProductGroupQueryOperationResponse response = asObject(content, FindProductGroupQueryOperationResponse.class);
+    Integer version = response.getBody().getVersion();
+    Long id = response.getBody().getId();
+    ProductGroup pg = new ProductGroup().id(id).version(version).name("demo 4.1");
+    this.mockMvc
+        .perform(put("/product-group").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(pg)))
+        .andDo(print()).andExpect(status().isOk());
+
+    FindProductGroupQuery queryAgain = new FindProductGroupQuery().name(pg.getName());
+    this.mockMvc
+        .perform(post("/product-group/find-by-name").accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(queryAgain)))
+        .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.body.name").value(pg.getName()))
+        .andExpect(jsonPath("$.body.version").value(1));
+
   }
 
   @TestConfiguration
@@ -79,6 +151,16 @@ public class ProductGroupControllerIntegrationTest {
     try {
       final ObjectMapper mapper = new ObjectMapper();
       final String jsonContent = mapper.writeValueAsString(obj);
+      return jsonContent;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static <T> T asObject(String json, final Class<T> obj) {
+    try {
+      final ObjectMapper mapper = new ObjectMapper();
+      final T jsonContent = mapper.readValue(json, obj);
       return jsonContent;
     } catch (Exception e) {
       throw new RuntimeException(e);

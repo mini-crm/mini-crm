@@ -29,7 +29,11 @@ public class ProductGroupBusinessService {
   }
 
   public ProductGroup findByName(String name) {
-    return productGroupDataService.findByName(name);
+    ProductGroup queried = productGroupDataService.findByName(name);
+    if (null == queried) {
+      throw new ProductGroupDoesNotExistException(name);
+    }
+    return queried;
   }
 
 }
