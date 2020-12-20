@@ -45,5 +45,6 @@ product-group-infra-data-mongo/build/
 buildSrc/.gradle/
 buildSrc/build/
 
-
+.openapi-generator-ignore
+.openapi-generator/*
 

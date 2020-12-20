@@ -25,7 +25,8 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
   @Override
   public void save(ProductGroup entity) {
     try {
-      dslContext.insertInto(PRODUCT_GROUP_TABLE, PRODUCT_GROUP_TABLE.GROUP_NAME).values(entity.getName()).execute();
+      dslContext.insertInto(PRODUCT_GROUP_TABLE, PRODUCT_GROUP_TABLE.GROUP_NAME, PRODUCT_GROUP_TABLE.VERSION)
+          .values(entity.getName(), 0).execute();
     } catch (DataAccessException dae) {
       if (ExceptionUtils.isSqlIntegrityConstraintViolationException(dae)) {
         throw new ProductGroupNameIsNotUniqueException(entity.getName(), dae);

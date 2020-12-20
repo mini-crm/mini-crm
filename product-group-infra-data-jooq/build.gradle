@@ -37,7 +37,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDir "src/main/generated"
+            srcDir "generated/src/main/java"
         }
     }
 }
@@ -102,7 +102,7 @@ class JOOQCodeGenerator extends DefaultTask {
 							            .withDaos(true))
 							        .withTarget(new Target()
 							            .withPackageName(packageName)
-							            .withDirectory(fullPath + projectsubdir + '/src/main/generated'))))
+							            .withDirectory(fullPath + projectsubdir + '/generated/src/main/java'))))
 			} catch(Exception exc){
 				exc.printStackTrace();
 				throw exc;
