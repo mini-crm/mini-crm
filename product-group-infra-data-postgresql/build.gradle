@@ -116,6 +116,6 @@ class JOOQCodeGenerator extends DefaultTask {
 task generateJooqJavaCode(type : JOOQCodeGenerator) {
     schema 'public'
 	projectDirectory '/product-group-infra-data-postgresql'
-	changeLogFile '/src/main/resources/database-change-log.xml'
+	changeLogFile '/src/main/resources/db/postgresql/database-change-log.xml'
 	packageName 'tr.com.minicrm.productgroup.data.postgresql.generated'
 }

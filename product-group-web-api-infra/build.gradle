@@ -27,6 +27,7 @@ dependencies {
 	implementation project(':product-group-data-api')
 	implementation project(':product-group-business-impl')
 	implementation project(':product-group-infra-data-mysql')
+	implementation project(':product-group-infra-data-postgresql')
 	
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -36,16 +37,19 @@ dependencies {
 	implementation 'io.springfox:springfox-core:3.0.0'
 	implementation "io.swagger.parser.v3:swagger-parser:2.0.24"
     implementation "org.openapitools:jackson-databind-nullable:0.2.1"
+    implementation 'org.postgresql:postgresql:42.2.16'
 	//implementation'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.0'
 	
 	
-	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.liquibase:liquibase-core:4.2.2'
 	implementation 'org.jooq:jooq:3.14.4'
 	implementation 'mysql:mysql-connector-java:8.0.22'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:testcontainers:1.15.1'
-	testImplementation 'org.testcontainers:mysql:1.15.1'	
+	testImplementation 'org.testcontainers:mysql:1.15.1'
+	testImplementation 'org.testcontainers:postgresql:1.15.1'
+		
 }
 
 sourceSets {

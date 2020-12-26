@@ -42,7 +42,7 @@ public class BaseTest {
     liquibase.database.Database database =
         DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(mysqlDS.getConnection()));
     Liquibase liquibase =
-        new liquibase.Liquibase("database-change-log.xml", new ClassLoaderResourceAccessor(), database);
+        new liquibase.Liquibase("db/mysql/database-change-log.xml", new ClassLoaderResourceAccessor(), database);
     liquibase.update(new Contexts(), new LabelExpression());
   }
 

@@ -1,7 +1,5 @@
 package tr.com.minicrm.productgroup.data.postgresql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.jooq.DSLContext;
@@ -9,6 +7,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import liquibase.Contexts;
@@ -22,7 +21,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 
 public class BaseTest {
   private static PostgreSQLContainer postgres;
-  private static Connection postgresDS;
+  private static PGSimpleDataSource postgresDS;
   protected static DSLContext context;
 
   @BeforeAll
@@ -40,9 +39,9 @@ public class BaseTest {
 
   private static void prepareDatabase() throws DatabaseException, SQLException, LiquibaseException {
     liquibase.database.Database database =
-        DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(postgresDS));
+        DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(postgresDS.getConnection()));
     Liquibase liquibase =
-        new liquibase.Liquibase("database-change-log.xml", new ClassLoaderResourceAccessor(), database);
+        new liquibase.Liquibase("db/postgresql/database-change-log.xml", new ClassLoaderResourceAccessor(), database);
     liquibase.update(new Contexts(), new LabelExpression());
   }
 
@@ -57,7 +56,10 @@ public class BaseTest {
   }
 
   private static void prepareDatasource() throws SQLException {
-    postgresDS = DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
+    postgresDS = new PGSimpleDataSource();
+    postgresDS.setUser(postgres.getUsername());
+    postgresDS.setPassword(postgres.getPassword());
+    postgresDS.setUrl(postgres.getJdbcUrl());
 
   }
 

@@ -26,6 +26,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MySQLContainer;
 
 import tr.com.minicrm.web.generated.productgroup.model.FindProductGroupQuery;
@@ -42,12 +43,13 @@ import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
-@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(properties = {"spring.main.allow-bean-definition-overriding=true","platform.database.type=mysql"}
+)
 @AutoConfigureMockMvc
-public class ProductGroupControllerIntegrationTest {
+public class ProductGroupControllerIntegrationMySqlTest {
 
-  private static MySQLContainer mysql;
-  private static MysqlDataSource mysqlDS;
+  private static GenericContainer container;
+  private static DataSource dataSource;
   private static DSLContext context;
 
   @Autowired
@@ -140,7 +142,7 @@ public class ProductGroupControllerIntegrationTest {
 
     @Bean
     public DataSource dataSource() {
-      return mysqlDS;
+      return dataSource;
     }
 
   }
@@ -175,32 +177,34 @@ public class ProductGroupControllerIntegrationTest {
 
   @AfterAll
   static void tearDown() {
-    mysql.stop();
+    container.stop();
   }
 
   private static void prepareDatabase() throws DatabaseException, SQLException, LiquibaseException {
     liquibase.database.Database database =
-        DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(mysqlDS.getConnection()));
+        DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(dataSource.getConnection()));
     Liquibase liquibase =
-        new liquibase.Liquibase("database-change-log.xml", new ClassLoaderResourceAccessor(), database);
+        new liquibase.Liquibase("db/mysql/database-change-log.xml", new ClassLoaderResourceAccessor(), database);
     liquibase.update(new Contexts(), new LabelExpression());
   }
 
   private static void prepareDatabaseServer() {
-    mysql = (MySQLContainer) new MySQLContainer("mysql:8.0.22").withDatabaseName("product_management")
+    MySQLContainer mysql = (MySQLContainer) new MySQLContainer("mysql:8.0.22").withDatabaseName("product_management")
         .withUsername("root").withPassword("").withEnv("MYSQL_ROOT_HOST", "%");
     mysql.start();
+    container = mysql;
   }
 
   private static DSLContext prepareDSLContext() {
-    return context = DSL.using(mysqlDS, SQLDialect.MYSQL);
+    return context = DSL.using(dataSource, SQLDialect.MYSQL);
   }
 
   private static void prepareDatasource() {
-    mysqlDS = new MysqlDataSource();
-    mysqlDS.setURL(mysql.getJdbcUrl());
-    mysqlDS.setUser(mysql.getUsername());
-    mysqlDS.setPassword(mysql.getPassword());
+    MysqlDataSource mysqlDS = new MysqlDataSource();
+    mysqlDS.setURL(((MySQLContainer)container).getJdbcUrl());
+    mysqlDS.setUser(((MySQLContainer)container).getUsername());
+    mysqlDS.setPassword(((MySQLContainer)container).getPassword());
+    dataSource = mysqlDS;
   }
 
 }
