@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
 import tr.com.minicrm.productgroup.data.ProductGroupDataService;
-import tr.com.minicrm.productgroup.data.jooq.ProductGroupDataServiceImpl;
+import tr.com.minicrm.productgroup.data.mysql.ProductGroupDataServiceImpl;
 
 @Configuration
 public class ProductGroupBusinessServiceConfiguration {
