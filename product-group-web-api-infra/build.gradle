@@ -95,6 +95,9 @@ openApiGenerate {
 }
 spotbugs {
     onlyAnalyze = [ 'tr.com.minicrm.*' ]
+    ignoreFailures = false
+    showStackTraces = true
+    showProgress = true
 }
 
 spotbugsMain {
