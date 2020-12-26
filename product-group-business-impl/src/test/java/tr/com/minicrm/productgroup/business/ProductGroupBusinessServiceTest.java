@@ -42,7 +42,7 @@ class ProductGroupBusinessServiceTest {
   }
 
   @Test
-  void testWhenInvalidProductGroupNameProvidedThanProductGroupDoesNotExistExceptionShouldReturn() {
+  void testWhenInvalidProductGroupUpdatedProvidedThanProductGroupDoesNotExistExceptionShouldReturn() {
     FakeProductGroupDataService dataService = new FakeProductGroupDataService();
     FakeProductGroup sample = new FakeProductGroup();
     dataService.clear();
@@ -51,6 +51,18 @@ class ProductGroupBusinessServiceTest {
       pgbs.updateProductGroup(sample);
     });
     Assertions.assertTrue(exception.getMessage().contains(sample.getId().toString()));
+  }
+
+  @Test
+  void testWhenInvalidProductGroupNameProvidedThanProductGroupDoesNotExistExceptionShouldReturn() {
+    FakeProductGroupDataService dataService = new FakeProductGroupDataService();
+    FakeProductGroup sample = new FakeProductGroup();
+    dataService.clear();
+    ProductGroupBusinessService pgbs = new ProductGroupBusinessService(dataService);
+    Exception exception = Assertions.assertThrows(ProductGroupDoesNotExistException.class, () -> {
+      pgbs.findByName(sample.getName());
+    });
+    Assertions.assertTrue(exception.getMessage().contains(sample.getName().toString()));
   }
 
 }

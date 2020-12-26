@@ -1,7 +1,27 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo1.maven.org/maven2" }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/releases/"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        // Updated version can be passed via command line arg as -PopenApiGeneratorVersion=VERSION
+        classpath "org.openapitools:openapi-generator-gradle-plugin:5.0.0-SNAPSHOT"
+    }
+}
 plugins {
 	id 'org.springframework.boot' version '2.4.0'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
+apply plugin: 'org.openapi.generator'
 
 dependencies {
 	implementation project(':product-group-data-api')
@@ -12,6 +32,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.5.1'
 	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.5.1'
+	implementation 'io.swagger:swagger-annotations:1.6.2'
+	implementation 'io.springfox:springfox-core:3.0.0'
+	implementation "io.swagger.parser.v3:swagger-parser:2.0.24"
+    implementation "org.openapitools:jackson-databind-nullable:0.2.1"
+	//implementation'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.0'
+	
 	
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.jooq:jooq:3.14.4'
@@ -20,5 +46,48 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:testcontainers:1.15.1'
 	testImplementation 'org.testcontainers:mysql:1.15.1'	
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "generated/src/main/java"
+        }
+    }
+}
+
+openApiMeta {
+    generatorName = "Sample"
+    packageName = "org.openapitools.example"
+    outputFolder = "$buildDir/meta".toString()
+}
+
+openApiValidate {
+    inputSpec = "$projectDir/src/main/resources/product-group.yaml"
+    recommend = true
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$projectDir/src/main/resources/product-group.yaml"
+    outputDir = "$projectDir".toString()
+    apiPackage = "tr.com.minicrm.web.generated.productgroup.api"
+    invokerPackage = "tr.com.minicrm.web.generated.productgroup.invoker"
+    modelPackage = "tr.com.minicrm.web.generated.productgroup.model"
+    configOptions = [
+            sourceFolder: "/generated/src/main/java",
+            dateLibrary: "java8",
+            library: "spring-boot",
+            interfaceOnly:"true",
+            useBeanValidation:"true",
+            defaultInterfaces:"false"
+    ]
+    globalProperties = [
+            modelDocs: "false"
+    ]
+    skipValidateSpec = true
+    logToStderr = true
+    generateAliasAsModel = false
+    enablePostProcessFile = false
 }
 
