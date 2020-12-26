@@ -3,7 +3,6 @@ allprojects {
     apply plugin: 'jacoco'
     apply plugin: 'project-report'
     apply plugin: "checkstyle"
-    apply plugin: 'pmd'
 
     group 'com.minicrm'
     version '1.0-SNAPSHOT'
@@ -57,10 +56,6 @@ allprojects {
 	  toolVersion '8.36.1'
 	  
 	}
-
-    pmd{
-        ignoreFailures = true
-    }
 
     test {
         useJUnitPlatform()
