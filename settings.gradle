@@ -1,10 +1,9 @@
 rootProject.name = 'mini-crm'
 include 'architecture-decisions'
 include 'code-quality'
-include 'product-group-infra-data-jooq'
+include 'product-group-infra-data-mysql'
+include 'product-group-infra-data-postgresql'
 include 'product-group-data-api'
 include 'product-group-business-impl'
 include 'product-group-web-api-infra'
 include 'product-group-infra-data-mongo'
-include 'product-group-infra-data-postgresql'
-
