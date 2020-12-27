@@ -23,10 +23,8 @@ public class BaseTest {
 
   @BeforeAll
   static void setUp() {
-    String ip = "localhost";
-    int port = 27017;
     prepareDatabaseServer();
-    mongoTemplate = new MongoTemplate(MongoClients.create(String.format(CONNECTION_STRING, ip, port)), "test");
+    mongoTemplate = new MongoTemplate(MongoClients.create(), "test");
 
     IndexOperations indexOps = mongoTemplate.indexOps(ProductGroupImpl.class);
     IndexResolver resolver = new MongoPersistentEntityIndexResolver(mongoTemplate.getConverter().getMappingContext());
