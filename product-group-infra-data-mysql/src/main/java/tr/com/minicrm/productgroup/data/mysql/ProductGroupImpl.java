@@ -1,7 +1,14 @@
 package tr.com.minicrm.productgroup.data.mysql;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import tr.com.minicrm.productgroup.data.ProductGroup;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductGroupImpl implements ProductGroup {
 
   private Long id;
@@ -10,35 +17,9 @@ public class ProductGroupImpl implements ProductGroup {
 
   private int version;
 
-  public ProductGroupImpl(Long id, String name, int version) {
-    super();
-    this.id = id;
-    this.name = name;
-    this.version = version;
-  }
-
   public ProductGroupImpl(String name) {
     super();
     this.name = name;
-  }
-
-  public ProductGroupImpl() {
-    super();
-  }
-
-  @Override
-  public Long getId() {
-    return id;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public int getVersion() {
-    return version;
   }
 
 }
