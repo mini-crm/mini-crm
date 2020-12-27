@@ -15,7 +15,7 @@ import liquibase.integration.spring.SpringLiquibase;
 @Import(ProductGroupBusinessServiceConfiguration.class)
 public class MainConfiguration {
 
-  @Value("${platform.database.type}")
+  @Value("${platform.datasource.databaseType}")
   private String databaseType;
 
   @Bean
@@ -25,5 +25,7 @@ public class MainConfiguration {
     liquibase.setDataSource(dataSource);
     return liquibase;
   }
+  
+  
 
 }

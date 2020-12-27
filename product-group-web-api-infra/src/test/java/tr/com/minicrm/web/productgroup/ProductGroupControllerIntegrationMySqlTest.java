@@ -43,7 +43,7 @@ import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
-@SpringBootTest(properties = {"spring.main.allow-bean-definition-overriding=true","platform.database.type=mysql"}
+@SpringBootTest(properties = {"spring.main.allow-bean-definition-overriding=true","platform.datasource.databaseType=mysql"}
 )
 @AutoConfigureMockMvc
 public class ProductGroupControllerIntegrationMySqlTest {

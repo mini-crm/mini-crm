@@ -17,7 +17,7 @@ import tr.com.minicrm.productgroup.data.mysql.ProductGroupDataServiceImpl;
 @Configuration
 public class ProductGroupBusinessServiceConfiguration {
 
-  @Value("${platform.database.type}")
+  @Value("${platform.datasource.databaseType}")
   private String databaseType;
 
   @Autowired
