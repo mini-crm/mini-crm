@@ -2,7 +2,6 @@ package tr.com.minicrm.productgroup.data.mongo;
 
 import lombok.Builder;
 
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +12,7 @@ import tr.com.minicrm.productgroup.data.ProductGroup;
 @Builder
 public class ProductGroupImpl implements ProductGroup {
 
-  public static final String sequenceName="PGR_ID";
+  public static final String sequenceName = "PGR_ID";
 
   @Id
   private Long id;
@@ -44,22 +43,22 @@ public class ProductGroupImpl implements ProductGroup {
     return id;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   @Override
   public String getName() {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   @Override
   public int getVersion() {
     return version;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public void setVersion(int version) {
