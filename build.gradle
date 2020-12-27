@@ -15,11 +15,12 @@ allprojects {
 
     dependencies {
         implementation 'org.projectlombok:lombok:1.18.16'
+        annotationProcessor 'org.projectlombok:lombok:1.18.16'
 
         testImplementation 'org.projectlombok:lombok:1.18.16'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
         testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
+		testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
     } 
     
     jacoco {
