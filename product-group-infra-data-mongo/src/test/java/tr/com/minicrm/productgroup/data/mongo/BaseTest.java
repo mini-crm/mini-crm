@@ -16,7 +16,6 @@ import tr.com.minicrm.productgroup.data.mongo.service.SequenceGeneratorService;
 public class BaseTest {
   private static final DockerImageName DEFAULT_IMAGE_NAME = DockerImageName.parse("mongo");
   private static final String DEFAULT_TAG = "4.0.10";
-  private static final String CONNECTION_STRING = "mongodb://%s:%d";
   protected static MongoTemplate mongoTemplate;
   protected static SequenceGeneratorService sequenceGeneratorService;
   private static MongoDBContainer mongoDB;
@@ -24,7 +23,9 @@ public class BaseTest {
   @BeforeAll
   static void setUp() {
     prepareDatabaseServer();
-    mongoTemplate = new MongoTemplate(MongoClients.create(), "test");
+    mongoTemplate = new MongoTemplate(
+        MongoClients.create("mongodb://" + mongoDB.getContainerIpAddress() + ":" + mongoDB.getFirstMappedPort()),
+        "product_management");
 
     IndexOperations indexOps = mongoTemplate.indexOps(ProductGroupImpl.class);
     IndexResolver resolver = new MongoPersistentEntityIndexResolver(mongoTemplate.getConverter().getMappingContext());

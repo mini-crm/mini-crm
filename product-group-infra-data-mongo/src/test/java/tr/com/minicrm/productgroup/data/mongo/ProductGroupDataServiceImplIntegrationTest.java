@@ -1,6 +1,5 @@
 package tr.com.minicrm.productgroup.data.mongo;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,17 +9,10 @@ import tr.com.minicrm.productgroup.data.ProductGroupNameIsNotUniqueException;
 
 public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
 
-  @AfterAll
-  static void removeCollection() {
-    for (var collectionName : mongoTemplate.getCollectionNames()) {
-      mongoTemplate.dropCollection(collectionName);
-    }
-  }
-
   @Test
   public void testWhenProductGroupSavedThanItShouldExistInDataStore() {
     ProductGroupDataService service = new ProductGroupDataServiceImpl(mongoTemplate, sequenceGeneratorService);
-    ProductGroupImpl saved = new ProductGroupImpl("Demo");
+    ProductGroupImpl saved = ProductGroupImpl.builder().name("Demo").build();
     saved.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
     service.save(saved);
     ProductGroup queried = service.findByName(saved.getName());
@@ -30,12 +22,12 @@ public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
   @Test
   void testWhenSameProductGroupNameGivenThanProductGroupNameIsNotUniqueExceptionShouldBeThrown() {
     ProductGroupDataService service = new ProductGroupDataServiceImpl(mongoTemplate, sequenceGeneratorService);
-    ProductGroupImpl saved = new ProductGroupImpl("Demo14");
+    ProductGroupImpl saved = ProductGroupImpl.builder().name("Demo14").build();
     saved.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
     service.save(saved);
 
     Assertions.assertThrows(ProductGroupNameIsNotUniqueException.class, () -> {
-      var saveDuplicate = new ProductGroupImpl("Demo14");
+      var saveDuplicate = ProductGroupImpl.builder().name("Demo14").build();
       saveDuplicate.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
       service.save(saveDuplicate);
     });
@@ -44,7 +36,7 @@ public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
   @Test
   void testWhenSameProductGroupUpdatedThanNewNameShouldBeReturned() {
     ProductGroupDataService service = new ProductGroupDataServiceImpl(mongoTemplate, sequenceGeneratorService);
-    ProductGroupImpl saved = new ProductGroupImpl("Demo2");
+    ProductGroupImpl saved = ProductGroupImpl.builder().name("Demo2").build();
     saved.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
     service.save(saved);
     ProductGroup found = service.findByName(saved.getName());

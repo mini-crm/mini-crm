@@ -1,7 +1,0 @@
-spring:
-  data:
-    mongodb:
-      host: mongo
-      port: 27017
-      database: product_management
-      auto-index-creation: true

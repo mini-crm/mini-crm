@@ -1,6 +1,6 @@
 package tr.com.minicrm.productgroup.data.mongo;
 
-import lombok.Builder;
+import lombok.*;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -10,6 +10,10 @@ import tr.com.minicrm.productgroup.data.ProductGroup;
 
 @Document(value = "product_group")
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductGroupImpl implements ProductGroup {
 
   public static final String sequenceName = "PGR_ID";
@@ -21,47 +25,4 @@ public class ProductGroupImpl implements ProductGroup {
   private String name;
 
   private int version;
-
-  public ProductGroupImpl(Long id, String name, int version) {
-    super();
-    this.id = id;
-    this.name = name;
-    this.version = version;
-  }
-
-  public ProductGroupImpl(String name) {
-    super();
-    this.name = name;
-  }
-
-  public ProductGroupImpl() {
-    super();
-  }
-
-  @Override
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public int getVersion() {
-    return version;
-  }
-
-  public void setVersion(int version) {
-    this.version = version;
-  }
 }
