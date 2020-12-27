@@ -4,7 +4,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.mongodb:mongo-java-driver:3.12.7'
         classpath 'org.testcontainers:testcontainers:1.15.1'
         classpath 'org.testcontainers:mongodb:1.15.1'
         classpath 'org.liquibase:liquibase-core:4.2.0'
@@ -14,7 +13,6 @@ buildscript {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.4.1'
     implementation 'org.liquibase:liquibase-core:4.2.0'
-    implementation 'org.mongodb:mongo-java-driver:3.12.7'
     implementation project(':product-group-data-api')
     testImplementation 'org.testcontainers:testcontainers:1.15.1'
     testImplementation 'org.testcontainers:mongodb:1.15.1'
