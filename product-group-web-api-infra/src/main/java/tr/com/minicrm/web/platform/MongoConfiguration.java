@@ -20,7 +20,7 @@ import tr.com.minicrm.productgroup.data.mongo.service.SequenceGeneratorService;
 @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mongo")
 public class MongoConfiguration {
 
-  @Value("${platform.datasource.database.host}")
+  @Value("${platform.datasource.jdbcUrl}")
   private String host;
 
   @Value("${platform.datasource.database}")
