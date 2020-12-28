@@ -26,7 +26,7 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
   @Override
   public void save(ProductGroup document) {
     try {
-      mongoTemplate.save(document);
+      mongoTemplate.save(new ProductGroupImpl(document));
     } catch (Exception exception) {
       if (ExceptionUtils.isSQLIntegrityConstraintViolationException(exception)) {
         throw new ProductGroupNameIsNotUniqueException(document.getName(), exception);
