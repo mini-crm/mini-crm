@@ -1,31 +1,18 @@
 package tr.com.minicrm.web;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import liquibase.integration.spring.SpringLiquibase;
+import tr.com.minicrm.web.platform.MongoConfiguration;
+import tr.com.minicrm.web.platform.MySqlConfiguration;
+import tr.com.minicrm.web.platform.PostgreSqlConfiguration;
 
 @Configuration
 @ComponentScan(basePackages = "tr.com.minicrm")
-@Import(ProductGroupBusinessServiceConfiguration.class)
+@Import({ProductGroupBusinessServiceConfiguration.class, MongoConfiguration.class, MySqlConfiguration.class,
+    PostgreSqlConfiguration.class})
 public class MainConfiguration {
 
-  @Value("${platform.datasource.databaseType}")
-  private String databaseType;
-
-  @Bean
-  public SpringLiquibase liquibase(DataSource dataSource) {
-    SpringLiquibase liquibase = new SpringLiquibase();
-    liquibase.setChangeLog("classpath:db/" + databaseType + "/database-change-log.xml");
-    liquibase.setDataSource(dataSource);
-    return liquibase;
-  }
-  
-  
 
 }

@@ -29,4 +29,10 @@ public class ProductGroupImpl implements ProductGroup {
   private String name;
 
   private int version;
+
+  public ProductGroupImpl(ProductGroup document) {
+    this.id = document.getId();
+    this.name = document.getName();
+    this.version = document.getVersion();
+  }
 }

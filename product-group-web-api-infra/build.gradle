@@ -28,9 +28,11 @@ dependencies {
 	implementation project(':product-group-business-impl')
 	implementation project(':product-group-infra-data-mysql')
 	implementation project(':product-group-infra-data-postgresql')
+	implementation project(':product-group-infra-data-mongo')
 	
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.5.1'
 	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.5.1'
 	implementation 'io.swagger:swagger-annotations:1.6.2'
@@ -49,6 +51,7 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.15.1'
 	testImplementation 'org.testcontainers:mysql:1.15.1'
 	testImplementation 'org.testcontainers:postgresql:1.15.1'
+	testImplementation 'org.testcontainers:mongodb:1.15.1'
 		
 }
 

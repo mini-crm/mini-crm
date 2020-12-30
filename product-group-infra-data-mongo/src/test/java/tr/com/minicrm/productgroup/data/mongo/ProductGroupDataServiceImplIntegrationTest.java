@@ -13,7 +13,6 @@ public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
   public void testWhenProductGroupSavedThanItShouldExistInDataStore() {
     ProductGroupDataService service = new ProductGroupDataServiceImpl(mongoTemplate, sequenceGeneratorService);
     ProductGroupImpl saved = ProductGroupImpl.builder().name("Demo").build();
-    saved.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
     service.save(saved);
     ProductGroup queried = service.findByName(saved.getName());
     Assertions.assertEquals(saved.getName(), queried.getName());
@@ -23,12 +22,10 @@ public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
   void testWhenSameProductGroupNameGivenThanProductGroupNameIsNotUniqueExceptionShouldBeThrown() {
     ProductGroupDataService service = new ProductGroupDataServiceImpl(mongoTemplate, sequenceGeneratorService);
     ProductGroupImpl saved = ProductGroupImpl.builder().name("Demo14").build();
-    saved.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
     service.save(saved);
 
     Assertions.assertThrows(ProductGroupNameIsNotUniqueException.class, () -> {
       var saveDuplicate = ProductGroupImpl.builder().name("Demo14").build();
-      saveDuplicate.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
       service.save(saveDuplicate);
     });
   }
@@ -37,7 +34,6 @@ public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
   void testWhenSameProductGroupUpdatedThanNewNameShouldBeReturned() {
     ProductGroupDataService service = new ProductGroupDataServiceImpl(mongoTemplate, sequenceGeneratorService);
     ProductGroupImpl saved = ProductGroupImpl.builder().name("Demo2").build();
-    saved.setId(sequenceGeneratorService.generateSequence(ProductGroupImpl.sequenceName));
     service.save(saved);
     ProductGroup found = service.findByName(saved.getName());
     ProductGroup toBeUpdated = new ProductGroupImpl(found.getId(), "Demo3", found.getVersion());

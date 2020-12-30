@@ -20,6 +20,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -43,8 +46,8 @@ import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
-@SpringBootTest(properties = {"spring.main.allow-bean-definition-overriding=true","platform.datasource.databaseType=postgresql"}
-)
+@SpringBootTest(
+    properties = {"spring.main.allow-bean-definition-overriding=true", "platform.datasource.databaseType=postgresql"})
 @AutoConfigureMockMvc
 public class ProductGroupControllerPostgresqlIntegrationTest {
 
@@ -133,8 +136,10 @@ public class ProductGroupControllerPostgresqlIntegrationTest {
   }
 
   @TestConfiguration
-  static class ProductGroupInfraDataJooqConfiguration {
-    
+  @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "postgresql")
+  @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class})
+  static class ProductGroupInfraDataPostgreSqlConfiguration {
+
     @Bean
     public DSLContext dslContext() {
       return context;
@@ -189,8 +194,8 @@ public class ProductGroupControllerPostgresqlIntegrationTest {
   }
 
   private static void prepareDatabaseServer() {
-    PostgreSQLContainer postgres = (PostgreSQLContainer) new PostgreSQLContainer("postgres").withDatabaseName("public").withUsername("root")
-        .withPassword("root");
+    PostgreSQLContainer postgres = (PostgreSQLContainer) new PostgreSQLContainer("postgres").withDatabaseName("public")
+        .withUsername("root").withPassword("root");
     postgres.start();
     container = postgres;
   }
@@ -201,9 +206,9 @@ public class ProductGroupControllerPostgresqlIntegrationTest {
 
   private static void prepareDatasource() {
     PGSimpleDataSource postgresDS = new PGSimpleDataSource();
-    postgresDS.setUser(((PostgreSQLContainer)container).getUsername());
-    postgresDS.setPassword(((PostgreSQLContainer)container).getPassword());
-    postgresDS.setUrl(((PostgreSQLContainer)container).getJdbcUrl());
+    postgresDS.setUser(((PostgreSQLContainer) container).getUsername());
+    postgresDS.setPassword(((PostgreSQLContainer) container).getPassword());
+    postgresDS.setUrl(((PostgreSQLContainer) container).getJdbcUrl());
     dataSource = postgresDS;
   }
 
