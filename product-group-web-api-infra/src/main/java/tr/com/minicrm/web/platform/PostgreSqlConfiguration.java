@@ -15,6 +15,7 @@ import tr.com.minicrm.productgroup.data.postgresql.ProductGroupDataServiceImpl;
 
 @Configuration
 @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "postgresql")
+
 public class PostgreSqlConfiguration {
 
   @Autowired

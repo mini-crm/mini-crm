@@ -22,6 +22,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -137,7 +138,7 @@ public class ProductGroupControllerPostgresqlIntegrationTest {
 
   @TestConfiguration
   @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "postgresql")
-  @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class})
+  @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
   static class ProductGroupInfraDataPostgreSqlConfiguration {
 
     @Bean

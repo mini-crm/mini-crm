@@ -47,4 +47,4 @@ buildSrc/build/
 
 .openapi-generator-ignore
 .openapi-generator/*
-
+.dbeaver/*
