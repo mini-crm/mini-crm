@@ -1,5 +1,7 @@
 package tr.com.minicrm.web.platform;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +22,19 @@ import tr.com.minicrm.productgroup.data.mongo.service.SequenceGeneratorService;
 @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mongo")
 public class MongoConfiguration {
 
-  @Value("${platform.datasource.jdbcUrl}")
-  private String host;
+  @Value("${platform.datasource.jdbcUrl:''}")
+  private String jdbcUrl;
 
-  @Value("${platform.datasource.database}")
+  @Value("${platform.datasource.database:''}")
   private String database;
 
   @Bean
   MongoTemplate mongoTemplate() {
-    return new MongoTemplate(MongoClients.create("mongodb://" + host), database);
+    ConnectionString connectionString = new ConnectionString(jdbcUrl);
+    MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+        .applyConnectionString(connectionString)
+        .build();
+    return new MongoTemplate(MongoClients.create(mongoClientSettings),database);
   }
 
   @Bean

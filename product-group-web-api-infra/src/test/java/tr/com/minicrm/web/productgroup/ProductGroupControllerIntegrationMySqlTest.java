@@ -20,7 +20,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -44,8 +46,8 @@ import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
-@SpringBootTest(properties = {"spring.main.allow-bean-definition-overriding=true","platform.datasource.databaseType=mysql"}
-)
+@SpringBootTest(
+    properties = {"spring.main.allow-bean-definition-overriding=true", "platform.datasource.databaseType=mysql"})
 @AutoConfigureMockMvc
 public class ProductGroupControllerIntegrationMySqlTest {
 
@@ -135,8 +137,9 @@ public class ProductGroupControllerIntegrationMySqlTest {
 
   @TestConfiguration
   @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mysql")
-  static class ProductGroupInfraDataJooqConfiguration {
-    
+  @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class})
+  static class ProductGroupInfraDataMySqlConfiguration {
+
     @Bean
     public DSLContext dslContext() {
       return context;
@@ -203,9 +206,9 @@ public class ProductGroupControllerIntegrationMySqlTest {
 
   private static void prepareDatasource() {
     MysqlDataSource mysqlDS = new MysqlDataSource();
-    mysqlDS.setURL(((MySQLContainer)container).getJdbcUrl());
-    mysqlDS.setUser(((MySQLContainer)container).getUsername());
-    mysqlDS.setPassword(((MySQLContainer)container).getPassword());
+    mysqlDS.setURL(((MySQLContainer) container).getJdbcUrl());
+    mysqlDS.setUser(((MySQLContainer) container).getUsername());
+    mysqlDS.setPassword(((MySQLContainer) container).getPassword());
     dataSource = mysqlDS;
   }
 

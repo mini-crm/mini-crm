@@ -20,7 +20,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -135,7 +137,8 @@ public class ProductGroupControllerPostgresqlIntegrationTest {
 
   @TestConfiguration
   @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "postgresql")
-  static class ProductGroupInfraDataPostgreConfiguration {
+  @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class})
+  static class ProductGroupInfraDataPostgreSqlConfiguration {
 
     @Bean
     public DSLContext dslContext() {
