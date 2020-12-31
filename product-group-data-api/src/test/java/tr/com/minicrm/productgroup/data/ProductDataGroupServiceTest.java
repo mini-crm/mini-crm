@@ -3,6 +3,8 @@ package tr.com.minicrm.productgroup.data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import tr.com.minicrm.productgroup.data.exceptions.ProductGroupNameIsNotUniqueException;
+
 public class ProductDataGroupServiceTest {
 
   @Test

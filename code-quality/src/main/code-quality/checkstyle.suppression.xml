@@ -4,4 +4,5 @@
 		"https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
 	<suppress files="[\\/]generated[\\/]" checks=".*"/>
+	<suppress files="NamingConventionTests.java" checks="MemberName"/>
 </suppressions>

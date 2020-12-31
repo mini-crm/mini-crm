@@ -13,10 +13,10 @@ import org.springframework.data.mongodb.core.index.IndexOperations;
 import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
 
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
 import tr.com.minicrm.productgroup.data.mongo.ProductGroupDataServiceImpl;
 import tr.com.minicrm.productgroup.data.mongo.ProductGroupImpl;
 import tr.com.minicrm.productgroup.data.mongo.service.SequenceGeneratorService;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 @Configuration
 @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mongo")

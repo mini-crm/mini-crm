@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tr.com.minicrm.productgroup.data.ProductGroup;
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 public class FakeProductGroupDataService implements ProductGroupDataService {
 

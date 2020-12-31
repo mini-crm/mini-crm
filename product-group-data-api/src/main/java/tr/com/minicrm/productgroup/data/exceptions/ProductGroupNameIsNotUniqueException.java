@@ -1,4 +1,4 @@
-package tr.com.minicrm.productgroup.data;
+package tr.com.minicrm.productgroup.data.exceptions;
 
 public class ProductGroupNameIsNotUniqueException extends RuntimeException {
 

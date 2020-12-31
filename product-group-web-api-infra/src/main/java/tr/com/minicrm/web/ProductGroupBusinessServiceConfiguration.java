@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import tr.com.minicrm.productgroup.business.ProductGroupBusinessService;
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 @Configuration
 public class ProductGroupBusinessServiceConfiguration {

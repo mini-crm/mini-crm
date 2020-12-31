@@ -1,4 +1,6 @@
-package tr.com.minicrm.productgroup.data;
+package tr.com.minicrm.productgroup.data.service;
+
+import tr.com.minicrm.productgroup.data.ProductGroup;
 
 public interface ProductGroupDataService {
 

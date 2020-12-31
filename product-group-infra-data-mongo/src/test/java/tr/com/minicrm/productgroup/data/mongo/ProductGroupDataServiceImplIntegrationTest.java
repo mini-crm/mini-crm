@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import tr.com.minicrm.productgroup.data.ProductGroup;
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
-import tr.com.minicrm.productgroup.data.ProductGroupNameIsNotUniqueException;
+import tr.com.minicrm.productgroup.data.exceptions.ProductGroupNameIsNotUniqueException;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 public class ProductGroupDataServiceImplIntegrationTest extends BaseTest {
 

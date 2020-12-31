@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import tr.com.minicrm.productgroup.data.ProductGroup;
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
-import tr.com.minicrm.productgroup.data.ProductGroupNameIsNotUniqueException;
+import tr.com.minicrm.productgroup.data.exceptions.ProductGroupNameIsNotUniqueException;
 import tr.com.minicrm.productgroup.data.mongo.service.SequenceGeneratorService;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 public class ProductGroupDataServiceImpl implements ProductGroupDataService {
 

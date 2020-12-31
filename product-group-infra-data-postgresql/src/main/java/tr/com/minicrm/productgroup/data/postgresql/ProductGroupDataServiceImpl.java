@@ -10,8 +10,8 @@ import org.jooq.RecordMapper;
 import org.jooq.exception.DataAccessException;
 
 import tr.com.minicrm.productgroup.data.ProductGroup;
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
-import tr.com.minicrm.productgroup.data.ProductGroupNameIsNotUniqueException;
+import tr.com.minicrm.productgroup.data.exceptions.ProductGroupNameIsNotUniqueException;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 public class ProductGroupDataServiceImpl implements ProductGroupDataService {
 

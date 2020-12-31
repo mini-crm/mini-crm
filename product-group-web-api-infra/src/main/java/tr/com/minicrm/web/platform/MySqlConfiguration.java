@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import tr.com.minicrm.productgroup.data.ProductGroupDataService;
 import tr.com.minicrm.productgroup.data.mysql.ProductGroupDataServiceImpl;
+import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 
 @Configuration
 @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mysql")
