@@ -52,6 +52,7 @@ dependencies {
 	testImplementation 'org.testcontainers:mysql:1.15.1'
 	testImplementation 'org.testcontainers:postgresql:1.15.1'
 	testImplementation 'org.testcontainers:mongodb:1.15.1'
+	testImplementation 'com.tngtech.archunit:archunit-junit5:0.15.0'
 		
 }
 
@@ -59,6 +60,11 @@ sourceSets {
     main {
         java {
             srcDir "generated/src/main/java"
+        }
+    }
+    test {
+        java {
+            srcDir "src/test/architecture/java"
         }
     }
 }

@@ -1,4 +1,4 @@
-package tr.com.minicrm.web.productgroup;
+package tr.com.minicrm.web.productgroup.controllers;
 
 import javax.validation.Valid;
 
