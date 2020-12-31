@@ -64,7 +64,7 @@ allprojects {
     test {
         useJUnitPlatform()
         testLogging {
-            events "standard_error","standard_out","passed", "skipped", "failed","started"
+            events "standard_error","standard_out","passed", "skipped", "failed"
         }
 
         jacoco{
