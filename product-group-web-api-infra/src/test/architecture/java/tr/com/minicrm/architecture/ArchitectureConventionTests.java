@@ -10,7 +10,7 @@ import com.tngtech.archunit.library.GeneralCodingRules;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@AnalyzeClasses(packages = "tr.com.minicrm.productgroup")
+@AnalyzeClasses(packages = "tr.com.minicrm.web", importOptions = {AllIgnoredResources.class})
 public class ArchitectureConventionTests {
 
   @ArchTest
@@ -25,5 +25,8 @@ public class ArchitectureConventionTests {
 
   @ArchTest
   ArchRule NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING = GeneralCodingRules.NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+
+  @ArchTest
+  ArchRule NO_CLASSES_SHOULD_USE_FIELD_INJECTION = GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
 
 }

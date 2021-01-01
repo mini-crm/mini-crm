@@ -22,19 +22,13 @@ import tr.com.minicrm.productgroup.data.service.ProductGroupDataService;
 @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mongo")
 public class MongoConfiguration {
 
-  @Value("${platform.datasource.jdbcUrl:''}")
-  private String jdbcUrl;
-
-  @Value("${platform.datasource.database:''}")
-  private String database;
-
   @Bean
-  MongoTemplate mongoTemplate() {
+  MongoTemplate mongoTemplate(@Value("${platform.datasource.database:''}") String database,
+      @Value("${platform.datasource.jdbcUrl:''}") String jdbcUrl) {
     ConnectionString connectionString = new ConnectionString(jdbcUrl);
-    MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-        .applyConnectionString(connectionString)
-        .build();
-    return new MongoTemplate(MongoClients.create(mongoClientSettings),database);
+    MongoClientSettings mongoClientSettings =
+        MongoClientSettings.builder().applyConnectionString(connectionString).build();
+    return new MongoTemplate(MongoClients.create(mongoClientSettings), database);
   }
 
   @Bean

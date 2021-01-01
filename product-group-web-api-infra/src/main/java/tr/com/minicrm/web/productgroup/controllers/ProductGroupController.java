@@ -2,7 +2,8 @@ package tr.com.minicrm.web.productgroup.controllers;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +17,10 @@ import tr.com.minicrm.web.generated.productgroup.model.NewProductGroup;
 import tr.com.minicrm.web.generated.productgroup.model.OperationResponse;
 
 @RestController
+@RequiredArgsConstructor
 public class ProductGroupController implements ProductGroupApi {
 
-  @Autowired
-  private ProductGroupBusinessService service;
+  private final ProductGroupBusinessService service;
 
   @Override
   public ResponseEntity<OperationResponse> createNewProductGroup(@Valid NewProductGroup newProductGroup) {

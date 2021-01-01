@@ -17,9 +17,6 @@ import liquibase.integration.spring.SpringLiquibase;
 @ConditionalOnExpression("'${platform.datasource.databaseType}' == 'mysql' or '${platform.datasource.databaseType}' == 'postgresql'")
 public class DataSourceConfiguration {
 
-  @Value("${platform.datasource.databaseType}")
-  private String databaseType;
-
   @Bean
   @ConfigurationProperties("platform.datasource")
   public HikariDataSource dataSource() {
@@ -27,7 +24,8 @@ public class DataSourceConfiguration {
   }
 
   @Bean
-  public SpringLiquibase liquibase(DataSource dataSource) {
+  public SpringLiquibase liquibase(@Value("${platform.datasource.databaseType}") String databaseType,
+      DataSource dataSource) {
     SpringLiquibase liquibase = new SpringLiquibase();
     liquibase.setChangeLog("classpath:db/" + databaseType + "/database-change-log.xml");
     liquibase.setDataSource(dataSource);
