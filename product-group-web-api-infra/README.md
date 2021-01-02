@@ -13,4 +13,3 @@ if you use Postgres as database server , use following steps to create your data
 
 ## Generate controller API from Open API specification
 Edit specification file located at `/src/main/resources/product-group.yaml` then run ` gradle openApiGenerate` command.
-
