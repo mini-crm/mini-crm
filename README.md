@@ -14,5 +14,10 @@ Use the links below to access README.md file of the submodules:
 # Local Development Environment Setup
 1. Install Docker Desktop
 2. Install Gradle Support for IDE
-3. Import root project.
-4. Import Code Quality settings located at `/code-quality/src/main/code-quality` to IDE 
+3. Database development tool such as DBeaver
+4. Install **git-flow** extension *http://danielkummer.github.io/git-flow-cheatsheet/*
+5. Import root project.
+6. Import Code Quality settings located at `/code-quality/src/main/code-quality` to IDE 
+
+## Development Environment Setup
+Install Docker Desktop and your favorite database development tool such as DBeaver.
