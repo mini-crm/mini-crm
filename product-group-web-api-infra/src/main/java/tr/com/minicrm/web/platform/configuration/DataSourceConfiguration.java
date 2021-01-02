@@ -1,4 +1,4 @@
-package tr.com.minicrm.web;
+package tr.com.minicrm.web.platform.configuration;
 
 import javax.sql.DataSource;
 

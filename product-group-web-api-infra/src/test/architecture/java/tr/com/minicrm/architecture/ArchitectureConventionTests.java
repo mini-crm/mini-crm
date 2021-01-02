@@ -7,6 +7,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.GeneralCodingRules;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -28,5 +29,9 @@ public class ArchitectureConventionTests {
 
   @ArchTest
   ArchRule NO_CLASSES_SHOULD_USE_FIELD_INJECTION = GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+
+  @ArchTest
+  ArchRule CONFIGURATION_SHOULD_BE_IN_CONFIGIRATION_PACKAGE =
+      classes().that().areAnnotatedWith(Configuration.class).should().resideInAPackage("..configuration..");
 
 }

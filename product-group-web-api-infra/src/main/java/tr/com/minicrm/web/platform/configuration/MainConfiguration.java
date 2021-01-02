@@ -1,4 +1,4 @@
-package tr.com.minicrm.web;
+package tr.com.minicrm.web.platform.configuration;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -11,9 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import tr.com.minicrm.web.platform.MongoConfiguration;
-import tr.com.minicrm.web.platform.MySqlConfiguration;
-import tr.com.minicrm.web.platform.PostgreSqlConfiguration;
+import tr.com.minicrm.web.productgroup.configuration.ProductGroupBusinessServiceConfiguration;
 
 @Configuration
 @ComponentScan(basePackages = "tr.com.minicrm")

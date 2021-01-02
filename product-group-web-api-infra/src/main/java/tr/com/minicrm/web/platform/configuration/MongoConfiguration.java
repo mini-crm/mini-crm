@@ -1,4 +1,4 @@
-package tr.com.minicrm.web.platform;
+package tr.com.minicrm.web.platform.configuration;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
