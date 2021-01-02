@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -126,10 +128,11 @@ public class ProductGroupControllerMongoIntegrationTest {
   }
 
   @TestConfiguration
-  @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class,
-      DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, JdbcTemplateAutoConfiguration.class,
-      DataSourceTransactionManagerAutoConfiguration.class})
   @ConditionalOnProperty(value = "platform.datasource.databaseType", havingValue = "mongo")
+  @EnableAutoConfiguration(exclude = {MongoReactiveAutoConfiguration.class, MongoAutoConfiguration.class,
+      MongoRepositoriesAutoConfiguration.class, MongoDataAutoConfiguration.class, DataSourceAutoConfiguration.class,
+      HibernateJpaAutoConfiguration.class, JdbcTemplateAutoConfiguration.class,
+      DataSourceTransactionManagerAutoConfiguration.class})
   static class ProductGroupInfraDataMongoConfiguration {
 
     @Bean
