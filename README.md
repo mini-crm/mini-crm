@@ -10,6 +10,7 @@ Use the links below to access README.md file of the submodules:
 4. [Product Group Infra Data MySQL](product-group-infra-data-mysql/README.md)
 5. [Product Group Infra Data PostgreSQL](product-group-infra-data-postgresql/README.md)
 6. [Product Group Infra Data MONGO](product-group-infra-data-mongo/README.md)
+7. [Product Group Infra Data COUCHBASE](product-group-infra-data-couchbase/README.md)
 
 # Local Development Environment Setup
 1. Install Docker Desktop

@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'com.minicrm'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':product-group-data-api')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+    implementation 'com.couchbase.client:java-client:2.7.0'
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.0.0'
+    implementation 'org.springframework.data:spring-data-couchbase:2.1.7.RELEASE'
+    implementation 'org.springframework.data:spring-data-commons:2.4.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-couchbase:2.2.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.4.1'
+    implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
+    implementation 'junit:junit:4.13.1'
+    implementation 'org.mockito:mockito-core:3.6.28'
+}
+
+test {
+    useJUnitPlatform()
+}
