@@ -19,14 +19,14 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
   public void save(ProductGroup entity) {
     try (final SqlSession sqlSession = sqlSessionFactory.openSession();) {
       final ProductGroupMapper mapper = sqlSession.getMapper(ProductGroupMapper.class);
-      mapper.save((ProductGroupImpl) entity);
+      mapper.save(new ProductGroupImpl(entity.getName()));
       sqlSession.commit(true);
     }
   }
 
   @Override
   public ProductGroup findByName(String name) {
-    ProductGroup result;
+    ProductGroupImpl result;
     try (final SqlSession sqlSession = sqlSessionFactory.openSession();) {
       final ProductGroupMapper mapper = sqlSession.getMapper(ProductGroupMapper.class);
       result = mapper.findByName(name);
@@ -38,14 +38,14 @@ public class ProductGroupDataServiceImpl implements ProductGroupDataService {
   public void update(ProductGroup entity) {
     try (final SqlSession sqlSession = sqlSessionFactory.openSession();) {
       final ProductGroupMapper mapper = sqlSession.getMapper(ProductGroupMapper.class);
-      mapper.update((ProductGroupImpl) entity);
+      mapper.update(new ProductGroupImpl(entity.getId(), entity.getName(), entity.getVersion()));
       sqlSession.commit(true);
     }
   }
 
   @Override
   public ProductGroup findById(Long id) {
-    ProductGroup result;
+    ProductGroupImpl result;
     try (final SqlSession sqlSession = sqlSessionFactory.openSession();) {
       final ProductGroupMapper mapper = sqlSession.getMapper(ProductGroupMapper.class);
       result = mapper.findById(id);

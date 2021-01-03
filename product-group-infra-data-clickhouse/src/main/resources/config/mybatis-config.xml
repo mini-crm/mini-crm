@@ -25,4 +25,7 @@
     </environment>
   </environments>
 
+  <mappers>
+    <mapper class="tr.com.minicrm.productgroup.data.clickhouse.ProductGroupMapper"/>
+  </mappers>
 </configuration>
