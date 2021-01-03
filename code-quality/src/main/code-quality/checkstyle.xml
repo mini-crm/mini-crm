@@ -239,7 +239,7 @@
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
         <module name="ImportOrder">
-            <property name="groups" value="/^java\./,javax,com,io,lombok,org,springfox,tr.com" />
+            <property name="groups" value="/^java\./,javax,com,io,ru,lombok,org,springfox,tr.com" />
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
             <property name="option" value="top"/>
