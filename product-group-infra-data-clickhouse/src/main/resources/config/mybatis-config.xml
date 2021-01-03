@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <properties resource="config/config.properties"/>
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="tr.com.minicrm.productgroup.data.clickhouse.HikariCpDataSourceFactory">
+        <property name="driverClassName" value="${platform.datasource.driverClassName}"/>
+        <property name="jdbcUrl" value="${platform.datasource.jdbcUrl}"/>
+        <!--        <property name="username" value="${platform.datasource.username}"/>-->
+        <!--        <property name="password" value="${platform.datasource.password}"/>-->
+        <property name="connectionTimeout" value="${platform.datasource.connectionTimeout}"/>
+        <property name="idleTimeout" value="${platform.datasource.idleTimeout}"/>
+        <property name="maxLifetime" value="${platform.datasource.maxLifetime}"/>
+        <property name="minimumIdle" value="${platform.datasource.minimumIdle}"/>
+        <property name="maxPoolSize" value="${platform.datasource.maximumPoolSize}"/>
+        <property name="poolName" value="${platform.datasource.poolName}"/>
+        <property name="leakDetectionThreshold" value="${platform.datasource.leakDetectionThreshold}"/>
+        <property name="connectionTestQuery" value="${platform.datasource.connectionTestQuery}"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <mappers>
+    <mapper class="tr.com.minicrm.productgroup.data.clickhouse.ProductGroupMapper"/>
+  </mappers>
+</configuration>

@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.zaxxer:HikariCP:3.4.5'
+        classpath 'org.mybatis:mybatis:3.5.6'
+        classpath 'mysql:mysql-connector-java:8.0.22'
+        classpath 'org.testcontainers:testcontainers:1.15.1'
+    }
+}
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: '**/generated/**')
+        }))
+    }
+}
+
+dependencies {
+    implementation 'mysql:mysql-connector-java:8.0.22'
+    implementation project(':product-group-data-api')
+
+    compile 'com.zaxxer:HikariCP:2.7.8'
+    compile 'org.mybatis:mybatis:3.5.6'
+    compile 'ru.yandex.clickhouse:clickhouse-jdbc:0.2.4'
+    compile 'com.zaxxer:HikariCP:3.4.5'
+
+    testCompile "org.testcontainers:clickhouse:1.15.1"
+    testCompile 'org.testcontainers:clickhouse:1.14.3'
+    testCompile 'org.testcontainers:junit-jupiter:1.14.3'
+
+    testImplementation 'org.testcontainers:testcontainers:1.15.1'
+}
