@@ -1,0 +1,18 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.hazelcast:hazelcast:3.7.5'
+        classpath 'org.testcontainers:testcontainers:1.15.1'
+        classpath 'com.hazelcast:hazelcast-client:3.7.5'
+    }
+}
+
+dependencies {
+    implementation project(':product-group-data-api')
+    compile('com.hazelcast:hazelcast:3.7.5')
+    compile('com.hazelcast:hazelcast-client:3.7.5')
+    testImplementation 'org.testcontainers:testcontainers:1.15.1'
+}
